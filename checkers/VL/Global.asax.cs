@@ -1,3 +1,6 @@
+using BL.Module;
+using Ninject;
+using Ninject.Modules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +9,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using VL.Modules;
 
 namespace VL
 {
@@ -16,8 +20,11 @@ namespace VL
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            NinjectModule Module = new ViewModule();
+            NinjectModule serviceModule = new ServiceModule("checkers");
+            var kernel = new StandardKernel(serviceModule, Module);
+            GlobalConfiguration.Configuration.DependencyResolver = new Ninject.Web.WebApi.NinjectDependencyResolver(kernel);
         }
     }
 }
