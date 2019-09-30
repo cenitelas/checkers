@@ -12,6 +12,14 @@ namespace DL.Interfaces
     {
         IRepository<Users> Users { get; }
         IRepository<Roles> Roles { get; }
+        IRepository<Game> Game { get; }
+        IRepository<GameType> GameType { get; }
+        IRepository<Board> Board { get; }
+        IRepository<BoardType> BoardType { get; }
+        IRepository<Check> Check { get; }
+        IRepository<CheckType> CheckType { get; }
+        IRepository<Player> Player { get; }
+        IRepository<Moves> Moves { get; }
         void Save();
     }
 }

@@ -50,10 +50,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IService.cs" />
+    <Compile Include="Models\BBoard.cs" />
+    <Compile Include="Models\BBoardType.cs" />
+    <Compile Include="Models\BCheck.cs" />
+    <Compile Include="Models\BCheckType.cs" />
+    <Compile Include="Models\BGame.cs" />
+    <Compile Include="Models\BGameType.cs" />
+    <Compile Include="Models\BMoves.cs" />
+    <Compile Include="Models\BPlayer.cs" />
     <Compile Include="Models\BRoles.cs" />
     <Compile Include="Models\BUsers.cs" />
     <Compile Include="Module\ServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\GameService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Utils\AutoMapper.cs" />
   </ItemGroup>

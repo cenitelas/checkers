@@ -1,5 +1,5 @@
-﻿using BL.BModel;
-using BL.Interfaces;
+﻿using BL.Interfaces;
+using BL.Models;
 using BL.Utils;
 using DL.Entities;
 using DL.Interfaces;
@@ -20,20 +20,24 @@ namespace BL.Services
             Database = uow;
         }
 
-        public void CreateOrUpdate(BUsers obj)
+        public BUsers CreateOrUpdate(BUsers obj)
         {
             if (obj.Id == 0)
             {
 
                 Users user = new Users() { Name = obj.Name, Password = obj.Password, Email = obj.Email, RoleId=1};
                 Database.Users.Create(user);
+                Database.Save();
+                return AutoMapper<Users, BUsers>.Map(user);
             }
             else
             {
                 Users user = AutoMapper<BUsers, Users>.Map(obj);
                 Database.Users.Update(user);
+                Database.Save();
+                return AutoMapper<Users, BUsers>.Map(user);
             }
-            Database.Save();
+
         }
 
         public void Dispose()

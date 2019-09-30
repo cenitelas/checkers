@@ -53,7 +53,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Board.cs" />
+    <Compile Include="Entities\BoardType.cs" />
+    <Compile Include="Entities\Check.cs" />
+    <Compile Include="Entities\CheckType.cs" />
+    <Compile Include="Entities\Game.cs" />
+    <Compile Include="Entities\GameType.cs" />
     <Compile Include="Entities\Model1.cs" />
+    <Compile Include="Entities\Moves.cs" />
+    <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\Roles.cs" />
     <Compile Include="Entities\Users.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
@@ -61,6 +69,10 @@
     <Compile Include="Migrations\201909261539406_Create-User-And-Role.cs" />
     <Compile Include="Migrations\201909261539406_Create-User-And-Role.Designer.cs">
       <DependentUpon>201909261539406_Create-User-And-Role.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909301242266_create_game_rep.cs" />
+    <Compile Include="Migrations\201909301242266_create_game_rep.Designer.cs">
+      <DependentUpon>201909301242266_create_game_rep.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,6 +86,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201909261539406_Create-User-And-Role.resx">
       <DependentUpon>201909261539406_Create-User-And-Role.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909301242266_create_game_rep.resx">
+      <DependentUpon>201909301242266_create_game_rep.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

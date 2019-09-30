@@ -1,6 +1,6 @@
 ﻿using BL;
-using BL.BModel;
 using BL.Interfaces;
+using BL.Models;
 using BL.Services;
 using Ninject.Modules;
 using Ninject.Web.WebApi.Filter;
@@ -17,7 +17,7 @@ namespace VL.Modules
         public override void Load()
         {
             Bind<IService<BUsers>>().To<UserService>();
-          
+            Bind<IService<BGame>>().To<GameService>();
             Bind<DefaultFilterProviders>().ToSelf().WithConstructorArgument(GlobalConfiguration.Configuration.Services.GetFilterProviders());
             Bind<DefaultModelValidatorProviders>().ToSelf().WithConstructorArgument(GlobalConfiguration.Configuration.Services.GetModelValidatorProviders());
         }
