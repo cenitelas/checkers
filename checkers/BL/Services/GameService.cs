@@ -49,12 +49,12 @@ namespace BL.Services
                             {
                                 if (i != 6)
                                 {
-                                    Check check = new Check() { BoardId = board.Id, isDeath = false, CheckTypeId = 2, PozX = j, PozY = i };
+                                    Check check = new Check() { BoardId = board.Id, isDeath = false, CheckTypeId = 2, PozX = j + 1, PozY = i };
                                     Database.Check.Create(check);
                                 }
                                 else
                                 {
-                                    Check check = new Check() { BoardId = board.Id, isDeath = false, CheckTypeId = 2, PozX = j + 1, PozY = i };
+                                    Check check = new Check() { BoardId = board.Id, isDeath = false, CheckTypeId = 2, PozX = j, PozY = i };
                                     Database.Check.Create(check);
                                 }
                             }

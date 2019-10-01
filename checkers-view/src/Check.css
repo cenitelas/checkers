@@ -1,12 +1,35 @@
 .field{
-    width: 32px;
-    height: 32px;
+    width: 96px;
+    height: 96px;
     border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 .field_black{
     background-color: brown;
 }
 
 .field_white{
+    background-color: white;
+}
+
+.check{
+    margin: 0 auto;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+}
+
+.check_click{
+    box-shadow: 0 0 20px rgba(0, 255, 42, 1);
+    border: 1px solid rgba(0, 255, 42, 1);
+}
+
+.check_black{
+    background-color: black;
+}
+
+.check_white{
     background-color: white;
 }
