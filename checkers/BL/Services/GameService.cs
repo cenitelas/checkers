@@ -24,7 +24,7 @@ namespace BL.Services
             if (obj.Id == 0)
             {
                 Board board = new Board();
-                if (obj.GameTypeId == 1 && obj.GameTypeId==2)
+                if (obj.GameTypeId == 1 || obj.GameTypeId==2)
                 {
                     board.BoardTypeId = 1;
                     Database.Board.Create(board);

@@ -1,32 +1,35 @@
 import React from 'react';
 import logo from './logo.svg';
 import './Game.css';
+import Board from './Board';
 
-class App extends React.Component {
+class Game extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            roomsInfo:[{}],
-            setPage:props.setPage
+            game:{}
         }
     }
 
     componentDidMount() {
-        fetch('/api/users/')
+        fetch('/api/game/getgame/5')
             .then(request => request.json())
-            .then(result => this.setState({ roomsInfo: result }));
+            .then(result => this.setState({game:result})).then(
+        fetch('/api/board/getboard/1')
+            .then(request => request.json())
+            .then(result => this.setState({game:{board:result}})));
+
     }
 
     render() {
-        const roomsInfo = this.state.roomsInfo;
         return (
-          <div>
-            <p>Name = {roomsInfo[0].Name}</p>
-            <p>Password = {roomsInfo[0].Password}</p>
-            <p>Email = {roomsInfo[0].Email}</p>
+          <div className="game">
+            {this.state.game.board &&
+                 <Board board={this.state.game.board}></Board>
+            }
           </div>
         )
     }
 }
 
-export default App;
+export default Game;

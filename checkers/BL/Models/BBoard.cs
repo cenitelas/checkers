@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BL.Models
 {
-    class BBoard
+    public class BBoard
     {
         public int Id { get; set; }
-        public int BoardTypeId { get; set; }
+        public int BoardTypeId { get; set; }      
     }
 }

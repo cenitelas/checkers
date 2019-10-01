@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace BL.Models
+namespace VL.Models
 {
-    public class BCheck
+    public class MCheck
     {
         public int Id { get; set; }
         public int PozX { get; set; }

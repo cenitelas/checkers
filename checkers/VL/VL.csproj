@@ -140,12 +140,15 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\MBoard.cs" />
+    <Compile Include="Models\MCheck.cs" />
     <Compile Include="Models\MGame.cs" />
     <Compile Include="Models\MUser.cs" />
     <Compile Include="Module\ViewModule.cs" />

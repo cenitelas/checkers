@@ -16,10 +16,13 @@ namespace VL
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
+            name: "MapByAction",
+            routeTemplate: "api/{controller}/{action}/{id}", defaults: new { id = RouteParameter.Optional });
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+                defaults: new { id = RouteParameter.Optional });
+
             config.Formatters.JsonFormatter.SupportedMediaTypes
             .Add(new MediaTypeHeaderValue("text/html"));
         }

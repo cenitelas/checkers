@@ -14,35 +14,35 @@ namespace VL.Controllers
     public class GameController : ApiController
     {
         IService<BGame> gameService;
+
         public GameController(IService<BGame> serv)
         {
             gameService = serv;
         }
-        public IEnumerable<MGame> Get()
+
+        public IEnumerable<MGame> GetGames()
         {
-            
-            gameService.CreateOrUpdate(new BGame() { HostId = 2, GameTypeId=1 });
             return AutoMapper<IEnumerable<BGame>, List<MGame>>.Map(gameService.GetList);
         }
 
         // GET: api/Game/5
-        public MGame Get(int id)
+        public MGame GetGame(int id=0)
         {
             return AutoMapper<BGame, MGame>.Map(gameService.Get, id);
         }
 
-        public MGame Post(MGame value)
+        public MGame PostGame(MGame value)
         {
             return AutoMapper<BGame, MGame>.Map(gameService.CreateOrUpdate(AutoMapper<MGame,BGame>.Map(value)));
         }
 
         // PUT: api/Game/5
-        public MGame Put(int id, MGame value)
+        public MGame PutGame(int id, MGame value)
         {
             return AutoMapper<BGame, MGame>.Map(gameService.CreateOrUpdate(AutoMapper<MGame, BGame>.Map(value)));
         }
 
-        public void Delete(int id)
+        public void DeleteGame(int id=0)
         {
             gameService.Delete(id);
         }
