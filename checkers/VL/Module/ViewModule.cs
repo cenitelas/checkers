@@ -19,7 +19,7 @@ namespace VL.Modules
             Bind<IService<BUsers>>().To<UserService>();
             Bind<IService<BGame>>().To<GameService>();
             Bind<IService<BBoard>>().To<BoardService>();
-            Bind<IMaxService<BCheck>>().To<CheckService>();
+            Bind<IService<BField>>().To<FieldService>();
             Bind<DefaultFilterProviders>().ToSelf().WithConstructorArgument(GlobalConfiguration.Configuration.Services.GetFilterProviders());
             Bind<DefaultModelValidatorProviders>().ToSelf().WithConstructorArgument(GlobalConfiguration.Configuration.Services.GetModelValidatorProviders());
         }

@@ -20,26 +20,26 @@ namespace VL.Controllers
             gameService = serv;
         }
 
-        public IEnumerable<MGame> GetGames()
+        public IEnumerable<BGame> GetGames()
         {
-            return AutoMapper<IEnumerable<BGame>, List<MGame>>.Map(gameService.GetList);
+            return gameService.GetList();
         }
 
         // GET: api/Game/5
-        public MGame GetGame(int id=0)
+        public BGame GetGame(int id=0)
         {
-            return AutoMapper<BGame, MGame>.Map(gameService.Get, id);
+            return gameService.Get(id);
         }
 
-        public MGame PostGame(MGame value)
+        public BGame PostGame(BGame value)
         {
-            return AutoMapper<BGame, MGame>.Map(gameService.CreateOrUpdate(AutoMapper<MGame,BGame>.Map(value)));
+            return gameService.CreateOrUpdate(value);
         }
 
         // PUT: api/Game/5
-        public MGame PutGame(int id, MGame value)
+        public BGame PutGame(int id, BGame value)
         {
-            return AutoMapper<BGame, MGame>.Map(gameService.CreateOrUpdate(AutoMapper<MGame, BGame>.Map(value)));
+            return gameService.CreateOrUpdate(value);
         }
 
         public void DeleteGame(int id=0)

@@ -22,23 +22,20 @@ namespace DL.Migrations
                 context.SaveChanges();
 
 
-            Users user = new Users() { Name = "admin", Password = "admin", RoleId = role.Id, Email = "test@test" };
-            context.Users.Add(user);
+                Users user = new Users() { Name = "admin", Password = "admin", RoleId = role.Id, Email = "test@test" };
+                context.Users.Add(user);
 
-            GameType gameType = new GameType() { Name = "Русские шашки" };
-            context.GameType.Add(gameType);
+                context.GameType.Add(new GameType() { Name = "Русские шашки" });
 
-            BoardType boardType = new BoardType() { Name = "8x8" };
-            context.BoardType.Add(boardType);
+                context.BoardType.Add(new BoardType() { Name = "8x8" });
 
-            BoardType boardType2 = new BoardType() { Name = "100x100" };
-            context.BoardType.Add(boardType2);
+                context.BoardType.Add(new BoardType() { Name = "100x100" });
 
-            CheckType black = new CheckType() { Name = "Черные" };
-            context.CheckType.Add(black);
+                context.CheckType.Add(new CheckType() { Name = "Белый" });
+                context.CheckType.Add(new CheckType() { Name = "Черный" });
 
-            CheckType white = new CheckType() { Name = "Белые" };
-            context.CheckType.Add(white);
+                context.FieldType.Add(new FieldType() { Name = "Черное" });
+                context.FieldType.Add(new FieldType() { Name = "Белое" });
             }
 
             context.SaveChanges();

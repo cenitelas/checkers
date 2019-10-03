@@ -12,21 +12,18 @@ class Game extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/api/game/getgame/5')
+        fetch('/api/game/getgame/14')
             .then(request => request.json())
-            .then(result => this.setState({game:result})).then(
-        fetch('/api/board/getboard/1')
-            .then(request => request.json())
-            .then(result => this.setState({game:{board:result}})));
-
+            .then(result => this.setState({game:result}));
     }
 
     render() {
+        console.log()
         return (
           <div className="game">
-            {this.state.game.board &&
-                 <Board board={this.state.game.board}></Board>
-            }
+              {this.state.game.Board &&
+                 <Board board={this.state.game.Board}></Board>
+              }
           </div>
         )
     }

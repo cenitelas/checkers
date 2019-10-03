@@ -20,6 +20,8 @@ namespace DL.Interfaces
         IRepository<CheckType> CheckType { get; }
         IRepository<Player> Player { get; }
         IRepository<Moves> Moves { get; }
+        IRepository<Field> Field { get; }
+        IRepository<FieldType> FieldType { get; }
         void Save();
     }
 }

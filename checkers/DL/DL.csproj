@@ -57,6 +57,8 @@
     <Compile Include="Entities\BoardType.cs" />
     <Compile Include="Entities\Check.cs" />
     <Compile Include="Entities\CheckType.cs" />
+    <Compile Include="Entities\Field.cs" />
+    <Compile Include="Entities\FieldType.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\GameType.cs" />
     <Compile Include="Entities\Model1.cs" />
@@ -74,6 +76,10 @@
     <Compile Include="Migrations\201909301242266_create_game_rep.Designer.cs">
       <DependentUpon>201909301242266_create_game_rep.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910031305083_add-field-rep.cs" />
+    <Compile Include="Migrations\201910031305083_add-field-rep.Designer.cs">
+      <DependentUpon>201910031305083_add-field-rep.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\UnitOfWork.cs" />
@@ -89,6 +95,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909301242266_create_game_rep.resx">
       <DependentUpon>201909301242266_create_game_rep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910031305083_add-field-rep.resx">
+      <DependentUpon>201910031305083_add-field-rep.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

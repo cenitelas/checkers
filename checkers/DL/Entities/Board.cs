@@ -12,6 +12,6 @@ namespace DL.Entities
         public int Id { get; set; }
         public int BoardTypeId { get; set; }
         public BoardType BoardType { get; set; }
-        public ICollection<Check> Checkers { get; set; }
+        public ICollection<Field> Fields { get; set; }
     }
 }

@@ -11,7 +11,7 @@ using DL.Interfaces;
 
 namespace BL.Services
 {
-    public class CheckService : IMaxService<BCheck>
+    public class CheckService : IService<BCheck>
     {
         IUnitOfWork Database { get; set; }
 
@@ -50,11 +50,6 @@ namespace BL.Services
         public BCheck Get(int id)
         {
             return AutoMapper<Check, BCheck>.Map(Database.Check.Get(id));
-        }
-
-        public IEnumerable<BCheck> GetCollectionInParent(int id)
-        {
-            return AutoMapper<IEnumerable<Check>, List<BCheck>>.Map(Database.Check.Find(i=>i.BoardId==id));
         }
 
         public IEnumerable<BCheck> GetList()

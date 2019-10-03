@@ -29,35 +29,38 @@ namespace BL.Services
                     board.BoardTypeId = 1;
                     Database.Board.Create(board);
                     Database.Save();
+                    int type = 1;
                     for(int i = 0; i < 8; i++)
                     {
-                        for (int j = 0; j < 8; j+=2)
+                        type = (type == 1) ? 2 : 1;
+                        for (int j = 0; j < 8; j++)
                         {
-                            if (i < 3) {
-                                if (i != 1)
-                                {
-                                    Check check = new Check() { BoardId = board.Id, isDeath = false, CheckTypeId = 1, PozX = j, PozY = i};
-                                    Database.Check.Create(check);
-                                }
-                                else
-                                {
-                                    Check check = new Check() { BoardId = board.Id, isDeath = false, CheckTypeId = 1, PozX = j+1, PozY = i };
-                                    Database.Check.Create(check);
-                                }
-                            }
-                            if (i > 4)
-                            {
-                                if (i != 6)
-                                {
-                                    Check check = new Check() { BoardId = board.Id, isDeath = false, CheckTypeId = 2, PozX = j + 1, PozY = i };
-                                    Database.Check.Create(check);
-                                }
-                                else
-                                {
-                                    Check check = new Check() { BoardId = board.Id, isDeath = false, CheckTypeId = 2, PozX = j, PozY = i };
-                                    Database.Check.Create(check);
-                                }
-                            }
+                            type = (type == 1) ? 2 : 1;
+                            Database.Field.Create(new Field() { BoardId = board.Id, FieldTypeId = type, PozX = j, PozY = i });
+                        }
+                    }
+                    Database.Save();
+                    List<Field> fields = Database.Field.Find(i => i.BoardId == board.Id).ToList();
+                    for (int i = 0; i < 24; i++)
+                    {
+                        if (fields[i].FieldTypeId == 2)
+                        {
+                            Check check = new Check() { CheckTypeId = 1 };
+                            Database.Check.Create(check);
+                            Database.Save();
+                            fields[i].CheckId = check.Id;
+                            Database.Field.Update(fields[i]);
+                        }
+                    }
+                    for (int i = 40; i < 64; i++)
+                    {
+                        if (fields[i].FieldTypeId == 2)
+                        {
+                            Check check = new Check() { CheckTypeId = 2 };
+                            Database.Check.Create(check);
+                            Database.Save();
+                            fields[i].CheckId = check.Id;
+                            Database.Field.Update(fields[i]);
                         }
                     }
                 }
@@ -69,17 +72,18 @@ namespace BL.Services
                 Game game = new Game() { BoardId = board.Id, CountPlayers = 1, GameTypeId = obj.GameTypeId, HostId = obj.HostId, isFinish = false };
                 Database.Game.Create(game);
                 Database.Save();
-                Player player = Database.Player.Find(i => i.GameId == null && i.UserId == game.HostId).FirstOrDefault();
-                player.GameId = game.Id;
-                Database.Player.Update(player);
+                Database.Player.Create(new Player() { CheckTypeId=1, GameId=game.Id, UserId = game.HostId});
                 Database.Save();
-                return AutoMapper<Game, BGame>.Map(game);
-            }else
+                BGame bGame = AutoMapper<Game, BGame>.Map(game);
+                bGame.Board = AutoMapper<Board, BBoard>.Map(board);
+                return bGame;
+            }
+            else
             {
                 Game game = AutoMapper<BGame, Game>.Map(obj);
                 Database.Game.Update(game);
                 Database.Save();
-                return AutoMapper<Game, BGame>.Map(game);
+                return obj;
             }
         }
 
@@ -95,7 +99,12 @@ namespace BL.Services
 
         public BGame Get(int id)
         {
-            return AutoMapper<Game, BGame>.Map(Database.Game.Get, id);
+            BGame game = AutoMapper<Game, BGame>.Map(Database.Game.Get, id);
+            if(game.BoardId!=null)
+            game.Board = AutoMapper<Board, BBoard>.Map(Database.Board.Get((int)game.BoardId));
+            game.Board.Fields = AutoMapper<IEnumerable<Field>, List<BField>>.Map(Database.Field.Find(i => i.BoardId == game.Board.Id));
+            game.Board.Fields.Where(z => z.CheckId != null).ToList().ForEach(i => i.Check = AutoMapper<Check, BCheck>.Map(Database.Check.Get((int)i.CheckId)));
+            return game;
         }
 
         public IEnumerable<BGame> GetList()

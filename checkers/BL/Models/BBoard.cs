@@ -9,6 +9,7 @@ namespace BL.Models
     public class BBoard
     {
         public int Id { get; set; }
-        public int BoardTypeId { get; set; }      
+        public int BoardTypeId { get; set; }
+        public List<BField> Fields { get; set; }
     }
 }

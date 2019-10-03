@@ -147,9 +147,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\MBoard.cs" />
-    <Compile Include="Models\MCheck.cs" />
-    <Compile Include="Models\MGame.cs" />
     <Compile Include="Models\MUser.cs" />
     <Compile Include="Module\ViewModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -21,6 +21,8 @@ namespace DL.Repository
         private IRepository<GameType> gameTypeRepository;
         private IRepository<Moves> movesRepository;
         private IRepository<Player> playerRepository;
+        private IRepository<Field> fieldRepository;
+        private IRepository<FieldType> fieldTypeRepository;
         public UnitOfWork(string connection)
         {
             db = new Model1(connection);
@@ -123,6 +125,26 @@ namespace DL.Repository
                 if (playerRepository == null)
                     playerRepository = new Repository<Player>(db);
                 return playerRepository;
+            }
+        }
+
+        public IRepository<Field> Field
+        {
+            get
+            {
+                if (fieldRepository == null)
+                    fieldRepository = new Repository<Field>(db);
+                return fieldRepository;
+            }
+        }
+
+        public IRepository<FieldType> FieldType
+        {
+            get
+            {
+                if (fieldTypeRepository == null)
+                    fieldTypeRepository = new Repository<FieldType>(db);
+                return fieldTypeRepository;
             }
         }
         public void Save()

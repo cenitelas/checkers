@@ -7,80 +7,58 @@ class Board extends React.Component {
         super(props)
         this.state = {
             board:props.board,
-            FieldTake:{},
-            fields:[]
+            fieldTake:null
         }
         this.FiledClick = this.FiledClick.bind(this);
+        this.FieldsLightWithCheck = this.FieldsLightWithCheck.bind(this);
+        this.FieldsLight = this.FieldsLight.bind(this);
     }
-    componentDidMount(){
-        this.FillBoard();
-    }
-    FillBoard() {
-        var field = this.state.fields;         
-        var color = 2; 
-            var checkers = this.state.board.Checkers;
-            for(let i=0;i<8;i++){
-                color =(i%2==0)?2:1;
-                for(let j=0;j<8;j++){
-                   color=(color===2)?1:2;
-                    var check = {};
-                    check = checkers.find(item => item.PozX === j && item.PozY===i);
-                    if(check)
-                    check['class']="null";
-                    field.push(<Field fieldType={color} check={check} key={i+''+j} click={this.FiledClick} pozX={j} pozY={i} class="field "></Field>)
-                }
-            }
-        this.setState({fields:field});
-    }
-
+    
     FiledClick(e,item){
-        this.setState({FieldTake:e});
-        var fields = this.state.fields;
-            fields.forEach(element => {
-                fields[fields.indexOf(element)] = <Field fieldType={element.props.fieldType} check={element.props.check} key={element.key} click={element.props.click} pozX={element.props.pozX} pozY={element.props.pozY} class="field "></Field>
-            });
-        if(this.state.FieldTake['onClick'])
-            this.state.FieldTake.onClick();
+        var fields = this.state.board.Fields;
+        fields.filter(i=>i.FieldTypeId==3).forEach(element => {
+            element.FieldTypeId=2;
+        });         
 
-           // e.onClick();
-            var pozX = e.props.pozX;
-            var pozY = e.props.pozY;
-            var checker = this.state.board.Checkers.find(i=>i.PozX==pozX && i.PozY==pozY);
-            if(checker){                     
-                var field1 = fields.find(i=>i.props.pozX===pozX-1 && i.props.pozY===pozY+1);
-                var field2 = fields.find(i=>i.props.pozX===pozX+1 && i.props.pozY===pozY+1);
-                if(field1){
-                    this.CheckInCheck(field1);
-                }
-                if(field2){
-                    this.CheckInCheck(field2);
-                }
-               // fields[fields.indexOf(e)] = <Field fieldType={e.props.fieldType} check={e.props.check} key={e.key} click={this.FiledClick} pozX={pozX} pozY={pozY} class="field field_check"></Field>
-              //  this.setState({fields:fields});
-            }
+        var field = e.props.field;
+        this.setState({fieldTake:field});
+        if(field.Check){
+            this.FieldsLight(field,field);
+        }
     }
 
-    CheckInCheck(field){
-        var fields = this.state.fields;
-        if(!field.props.check)
-        fields[fields.indexOf(field)] = <Field fieldType={field.props.fieldType} check={field.props.check} key={field.key} click={field.props.click} pozX={field.props.pozX} pozY={field.props.pozY} class="field field_click"></Field>
-        else if(field.props.check.CheckTypeId && field.props.check.CheckTypeId!=this.state.FieldTake.props.check.CheckTypeId){
-            var fieldWithCheck1 = fields.find(i=>i.props.pozX===field.props.pozX-1 && i.props.pozY===field.props.pozY+1);
-            var fieldWithCheck2 = fields.find(i=>i.props.pozX===field.props.pozX+1 && i.props.pozY===field.props.pozY+1);
-            if(fieldWithCheck1){
-                this.CheckInCheck(fieldWithCheck1);
+    FieldsLight(field){
+        var fields = this.state.board.Fields;
+        var fieldL = fields.find(i=>i.PozX===field.PozX-1 && i.PozY===field.PozY-1);
+        var fieldR = fields.find(i=>i.PozX===field.PozX+1 && i.PozY===field.PozY-1);
+            if(fieldL)
+            if(fieldL.Check){
+                this.FieldsLightWithCheck(fieldL,field);
+            }else if(!fieldR || !fieldR.Check){
+                fieldL.FieldTypeId = 3;
             }
-            if(fieldWithCheck2){
-                this.CheckInCheck(fieldWithCheck2);
+            if(fieldR)
+            if(fieldR.Check){
+                this.FieldsLightWithCheck(fieldR,field);
+            }else if(!fieldL || !fieldL.Check){
+                fieldR.FieldTypeId = 3;
             }
-        }
         this.setState({fields:fields});
     }
+
+    FieldsLightWithCheck(field,fieldTake){
+        if(fieldTake.Check.CheckTypeId!==field.Check.CheckTypeId){
+            this.FieldsLight(field);
+        }
+    }
+
     render() 
     {
         return (
           <div className="board">
-              {this.state.fields.map((item, i) => item)}
+              {this.state.board.Fields.map((item, i) => 
+                <Field field={item} key={item.Id} click={this.FiledClick}></Field>
+                )}
           </div>
         )
     }

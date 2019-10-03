@@ -49,14 +49,14 @@ namespace BL.Services
         public BBoard Get(int id)
         {
             if (id > 0)
-                return AutoMapper<Board, BBoard>.Map(Database.Board.Get(id));
+            {
+                BBoard board = AutoMapper<Board, BBoard>.Map(Database.Board.Get(id));
+                board.Fields = AutoMapper<IEnumerable<Field>, List<BField>>.Map(Database.Field.Find(i => i.BoardId == id));
+                board.Fields.Where(z=>z.CheckId!=null).ToList().ForEach(i => i.Check=AutoMapper<Check,BCheck>.Map(Database.Check.Get((int)i.CheckId)));
+                return board;
+            }
             else
                 return new BBoard();
-        }
-
-        public IEnumerable<BCheck> GetChildCollection(int id)
-        {
-            return AutoMapper<IEnumerable<Check>, List<BCheck>>.Map(Database.Check.Find(i => i.BoardId == id));
         }
 
         public IEnumerable<BBoard> GetList()

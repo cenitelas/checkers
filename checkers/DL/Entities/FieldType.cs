@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL.Models
+namespace DL.Entities
 {
-    public class BCheck
+    public class FieldType
     {
         public int Id { get; set; }
-        public int CheckTypeId { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -26,7 +26,8 @@ namespace DL.Entities
         public virtual DbSet<Moves> Moves { get; set; }
         public virtual DbSet<Player> Player { get; set; }
         public virtual DbSet<Game> Game { get; set; }
-
+        public virtual DbSet<Field> Field { get; set; }
+        public virtual DbSet<FieldType> FieldType { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
         }
