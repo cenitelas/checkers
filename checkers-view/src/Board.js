@@ -31,8 +31,16 @@ class Board extends React.Component {
         }else{
             if(field.FieldTypeId==3){
                 console.log(checkDelete);
-                checkDelete.forEach(i=>i.Check=null);
-                field.Check=this.state.fieldTake.Check;
+                checkDelete.forEach(element => {
+                    console.log(element);
+                    if(element!=field )
+                    if(element.Check)
+                    element.Check=null;
+                    else
+                    return
+                });
+                var temp = fields.find(i=>i==field);
+                temp.Check =this.state.fieldTake.Check;
             }
             this.setState({fieldTake:null});
             checkDelete=[];
@@ -58,6 +66,10 @@ class Board extends React.Component {
                 if(fieldR && !fieldR.Check && fieldR.PozX+2==take.PozX && fieldR.PozY+2==take.PozY)
                 this.DiagRightUp(fieldR.PozX,fieldR.PozY,take);
                 checkDelete.push(fieldLU);
+            }else if(!fieldLU.Check && (!fieldLD || (fieldLD && (!fieldLD.Check || fieldLD.Check.CheckTypeId==take.Check.CheckTypeId)))){
+                    if(!fieldLU.Check && (!fieldRU || (fieldRU && (!fieldRU.Check || fieldRU.Check.CheckTypeId==take.Check.CheckTypeId))))
+                     if(!fieldLU.Check && (!fieldRD || (fieldRD && (!fieldRD.Check || fieldRD.Check.CheckTypeId==take.Check.CheckTypeId))))
+                         fieldLU.FieldTypeId=3;
             }
         }
 
@@ -70,7 +82,11 @@ class Board extends React.Component {
                 if(fieldR && !fieldR.Check && fieldR.PozX+2==take.PozX && fieldR.PozY-2==take.PozY)
                 this.DiagRightDown(fieldR.PozX,fieldR.PozY,take);
                 checkDelete.push(fieldLD);
-            }
+            }else if(!fieldLD.Check && (!fieldLU || (fieldLU && (!fieldLU.Check || fieldLU.Check.CheckTypeId==take.Check.CheckTypeId)))){
+                if(!fieldLD.Check && (!fieldRU || (fieldRU && (!fieldRU.Check || fieldRU.Check.CheckTypeId==take.Check.CheckTypeId))))
+                 if(!fieldLD.Check && (!fieldRD || (fieldRD && (!fieldRD.Check || fieldRD.Check.CheckTypeId==take.Check.CheckTypeId))))
+                 fieldLD.FieldTypeId=3;
+        }
         }
 
         if(fieldRU){
@@ -82,7 +98,11 @@ class Board extends React.Component {
                 if(fieldR && !fieldR.Check && fieldR.PozX-2==take.PozX && fieldR.PozY+2==take.PozY)
                 this.DiagRightUp(fieldR.PozX,fieldR.PozY,take);
                 checkDelete.push(fieldRU);
-            }
+            }else if(!fieldRU.Check && (!fieldLD || (fieldLD && (!fieldLD.Check || fieldLD.Check.CheckTypeId==take.Check.CheckTypeId)))){
+                if(!fieldRU.Check && (!fieldLU || (fieldLU && (!fieldLU.Check || fieldLU.Check.CheckTypeId==take.Check.CheckTypeId))))
+                 if(!fieldRU.Check && (!fieldRD || (fieldRD && (!fieldRD.Check || fieldRD.Check.CheckTypeId==take.Check.CheckTypeId))))
+                 fieldRU.FieldTypeId=3;
+        }
         }
 
         if(fieldRD){
@@ -94,7 +114,11 @@ class Board extends React.Component {
                 if(fieldR && !fieldR.Check && fieldR.PozX-2==take.PozX && fieldR.PozY-2==take.PozY)
                 this.DiagRightDown(fieldR.PozX,fieldR.PozY,take);
                 checkDelete.push(fieldRD);
-            }
+            }else if(!fieldRD.Check && (!fieldLD || (fieldLD && (!fieldLD.Check || fieldLD.Check.CheckTypeId==take.Check.CheckTypeId)))){
+                if(!fieldRD.Check && (!fieldRU || (fieldRU && (!fieldRU.Check || fieldRU.Check.CheckTypeId==take.Check.CheckTypeId))))
+                 if(!fieldRD.Check && (!fieldLU || (fieldLU && (!fieldLU.Check || fieldLU.Check.CheckTypeId==take.Check.CheckTypeId))))
+                 fieldRD.FieldTypeId=3;
+        }
         }
     }
 
@@ -103,14 +127,10 @@ class Board extends React.Component {
         for(let i=0;i<diag.length;i+=2){
             if(diag[i].Check || (diag.length>i+1 && !diag[i+1].Check))
                 return;
-            // if(diag.length>i+1 && diag[i+1].Check && diag[i+1].Check.CheckTypeId==take.Check.CheckTypeId){
-            //     return;
-            // }
-            
+            if(checkDelete.length<1 && !checkDelete.some(i=>i.PozX==diag[i].PozX))
+            checkDelete.push(diag[i]);           
             if(diag[i].FieldTypeId!=3){
             diag[i].FieldTypeId=3;
-            if(i>0)
-            checkDelete.push(diag[i-1]);
             this.DiagLeftUp(diag[i].PozX,diag[i].PozY,take);
             this.DiagLeftDown(diag[i].PozX,diag[i].PozY,take);
             this.DiagRightUp(diag[i].PozX,diag[i].PozY,take);

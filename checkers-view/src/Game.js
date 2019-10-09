@@ -12,7 +12,7 @@ class Game extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/api/game/getgame/14')
+        fetch('/api/game/getgame/1')
             .then(request => request.json())
             .then(result => this.setState({game:result}));
     }
