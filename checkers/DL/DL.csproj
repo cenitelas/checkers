@@ -80,6 +80,10 @@
     <Compile Include="Migrations\201910031305083_add-field-rep.Designer.cs">
       <DependentUpon>201910031305083_add-field-rep.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910091310153_add-quein-check.cs" />
+    <Compile Include="Migrations\201910091310153_add-quein-check.Designer.cs">
+      <DependentUpon>201910091310153_add-quein-check.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\UnitOfWork.cs" />
@@ -98,6 +102,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910031305083_add-field-rep.resx">
       <DependentUpon>201910031305083_add-field-rep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910091310153_add-quein-check.resx">
+      <DependentUpon>201910091310153_add-quein-check.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

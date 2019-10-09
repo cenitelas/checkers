@@ -9,6 +9,8 @@ namespace BL.Models
     public class BCheck
     {
         public int Id { get; set; }
+
+        public bool IsQuein { get; set; }
         public int CheckTypeId { get; set; }
     }
 }

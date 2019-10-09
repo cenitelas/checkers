@@ -9,6 +9,7 @@ namespace DL.Entities
     public class Check
     {
         public int Id { get; set; }
+        public bool IsQuein { get; set; }
         public int CheckTypeId { get; set; }
         public CheckType CheckType { get; set; }
     }
