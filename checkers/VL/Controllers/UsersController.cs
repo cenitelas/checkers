@@ -13,35 +13,37 @@ namespace VL.Controllers
     {
         IService<BUsers> userService;
 
+
         public UsersController(IService<BUsers> serv)
         {
             userService = serv;
         }
-        public IEnumerable<BUsers> UsersGet()
+
+        public IEnumerable<BUsers> GetUsers()
         {
             return userService.GetList();
         }
 
         [HttpGet]
-        public BUsers UserGet(int id)
+        public BUsers GetUser(int id)
         {
             return userService.Get(id);
         }
 
         // POST api/<controller>
-        public BUsers UserPost(BUsers value)
+        public BUsers PostUser(BUsers value)
         {
             return userService.CreateOrUpdate(value);
         }
 
         // PUT api/<controller>/5
-        public void UserPut(int id, BUsers value)
+        public void PutUser(int id, BUsers value)
         {
             userService.CreateOrUpdate(value);
         }
 
         // DELETE api/<controller>/5
-        public void UserDelete(int id)
+        public void DeleteUser(int id)
         {
             userService.Delete(id);
         }

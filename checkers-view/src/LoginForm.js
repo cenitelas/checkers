@@ -14,7 +14,7 @@ class LoginForm extends React.Component {
 
     onSubmit(event){
       if(this.state.login.length>0 && this.state.password.length>0){
-        fetch("/api/users/userpost",
+        fetch("/api/users/postuser",
         {
             headers: {
               'Accept': 'application/json',
