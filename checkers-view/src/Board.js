@@ -44,20 +44,14 @@ class Board extends React.Component {
 
     ClearFields(field,take){
         var checkDelete = this.state.checkDelete;
-        checkDelete.forEach(element => {
-           console.log(element);
-       });
-
-            checkDelete.forEach(element => {
-            if(element!=field )
-            if(element.Check)
-            element.Check=null;
-            else
-            return
-            });
-
+        checkDelete = checkDelete.slice(0, checkDelete.indexOf(field));
         field.Check=take.Check;
         take.Check=null;
+        checkDelete.forEach(element => {     
+            if(element.Check)
+            element.Check=null;
+        });
+
         if(field.Check.CheckTypeId==1 && field.PozY==7 ){
             field.Check.IsQuein = true;
         }
@@ -69,91 +63,33 @@ class Board extends React.Component {
 
     FiledLook(field,take){
         var fields = this.state.board.Fields;
-        var checkDelete = this.state.checkDelete;
         var fieldLU = fields.find(i=>i.PozX==field.PozX-1 && i.PozY==field.PozY-1);
         var fieldLD = fields.find(i=>i.PozX==field.PozX-1 && i.PozY==field.PozY+1);
         var fieldRU = fields.find(i=>i.PozX==field.PozX+1 && i.PozY==field.PozY-1);
         var fieldRD = fields.find(i=>i.PozX==field.PozX+1 && i.PozY==field.PozY+1);
         if(fieldLU){
-            if(take.Check.IsQuein){
-                this.DiagLeftUp(fieldLU.PozX,fieldLU.PozY,take);
-            }
-            else
             if(fieldLU.Check && fieldLU.Check.CheckTypeId!=take.Check.CheckTypeId && fieldLU.PozX!=0 && fieldLU.PozY!=0){
-                // console.log(isEnemy+" LU")
-                // let fieldL = fields.find(i=>i.PozX==fieldLU.PozX-1 && i.PozY==fieldLU.PozY-1); 
-                // if(fieldL && !fieldL.Check && fieldL.PozX+2==take.PozX && fieldL.PozY+2==take.PozY)
-                // this.DiagLeftUp(fieldL.PozX,fieldL.PozY,take);
-                // let fieldR = fields.find(i=>i.PozX==fieldLU.PozX+1 && i.PozY==fieldLU.PozY-1); 
-                // if(fieldR && !fieldR.Check && fieldR.PozX+2==take.PozX && fieldR.PozY+2==take.PozY)
-                // this.DiagRightUp(fieldR.PozX,fieldR.PozY,take);
-                // if(fieldL && fieldL.Check)
-                // isEnemy=false;
-                // checkDelete.push(fieldLU);
                  this.DiagLeftUp(fieldLU.PozX,fieldLU.PozY,take);
             }
         }
 
         if(fieldLD){
-            if(take.Check.IsQuein){
-                this.DiagLeftDown(fieldLD.PozX,fieldLD.PozY,take);
-            }
-            else
             if(fieldLD.Check && fieldLD.Check.CheckTypeId!=take.Check.CheckTypeId && fieldLD.PozX!=0 && fieldLD.PozY!=7){
-                // isEnemy=true;
-                // console.log(isEnemy+" LD")
-                // let fieldL = fields.find(i=>i.PozX==fieldLD.PozX-1 && i.PozY==fieldLD.PozY+1);
-                // if(fieldL && !fieldL.Check && fieldL.PozX+2==take.PozX && fieldL.PozY-2==take.PozY)
-                // this.DiagLeftDown(fieldL.PozX,fieldL.PozY,take);
-                // let fieldR = fields.find(i=>i.PozX==fieldLD.PozX+1 && i.PozY==fieldLD.PozY+1); 
-                // if(fieldR && !fieldR.Check && fieldR.PozX-2==take.PozX && fieldR.PozY-2==take.PozY)
-                // this.DiagRightDown(fieldR.PozX,fieldR.PozY,take);
-                // if(fieldL && fieldL.Check)
-                // isEnemy=false;
-                // checkDelete.push(fieldLD);
                 this.DiagLeftDown(fieldLD.PozX,fieldLD.PozY,take);
             }
         }
 
         if(fieldRU){
-            if(take.Check.IsQuein){
-                this.DiagRightUp(fieldRU.PozX,fieldRU.PozY,take);
-            }
-            else if(fieldRU.Check && fieldRU.Check.CheckTypeId!=take.Check.CheckTypeId && fieldRU.PozX!=7 && fieldRU.PozY!=0){
-                // isEnemy=true;
-                // console.log(isEnemy+" RU")
-                // let fieldL = fields.find(i=>i.PozX==fieldRU.PozX-1 && i.PozY==fieldRU.PozY-1); 
-                // if(fieldL && !fieldL.Check && fieldL.PozX-2==take.PozX && fieldL.PozY+2==take.PozY)
-                // this.DiagLeftUp(fieldL.PozX,fieldL.PozY,take);
-                // let fieldR = fields.find(i=>i.PozX==fieldRU.PozX+1 && i.PozY==fieldRU.PozY-1); 
-                // if(fieldR && !fieldR.Check && fieldR.PozX-2==take.PozX && fieldR.PozY+2==take.PozY)
-                // this.DiagRightUp(fieldR.PozX,fieldR.PozY,take);
-                // if(fieldR && fieldR.Check)
-                // isEnemy=false;
-                // checkDelete.push(fieldRU);
+            if(fieldRU.Check && fieldRU.Check.CheckTypeId!=take.Check.CheckTypeId && fieldRU.PozX!=7 && fieldRU.PozY!=0){               
                  this.DiagRightUp(fieldRU.PozX,fieldRU.PozY,take);
             }
         }
 
         if(fieldRD){
-            if(take.Check.IsQuein){
+            if(fieldRD.Check && fieldRD.Check.CheckTypeId!=take.Check.CheckTypeId && fieldRD.PozX!=7 && fieldRD.PozY!=7){            
                 this.DiagRightDown(fieldRD.PozX,fieldRD.PozY,take);
             }
-            else
-            if(fieldRD.Check && fieldRD.Check.CheckTypeId!=take.Check.CheckTypeId && fieldRD.PozX!=7 && fieldRD.PozY!=7){
-                // isEnemy=true;
-                // console.log(isEnemy+" RD")
-                // let fieldL = fields.find(i=>i.PozX==fieldRD.PozX-1 && i.PozY==fieldRD.PozY+1);
-                // if(fieldL && !fieldL.Check && fieldL.PozX+2==take.PozX && fieldL.PozY-2==take.PozY)
-                // this.DiagLeftDown(fieldL.PozX,fieldL.PozY,take);
-                // let fieldR = fields.find(i=>i.PozX==fieldRD.PozX+1 && i.PozY==fieldRD.PozY+1); 
-                // if(fieldR && !fieldR.Check && fieldR.PozX-2==take.PozX && fieldR.PozY-2==take.PozY)
-                // this.DiagRightDown(fieldR.PozX,fieldR.PozY,take);
-                // if(fieldR && fieldR.Check)
-                // isEnemy=false;
-                // checkDelete.push(fieldRD);
-                this.DiagRightDown(fieldRD.PozX,fieldRD.PozY,take);
-            }
+         }
 
         if(this.VerefyField(fieldLU,fieldLD,fieldRU,fieldRD,take)){
             if(take.Check.CheckTypeId==1){
@@ -164,13 +100,12 @@ class Board extends React.Component {
                 if(fieldLU && !fieldLU.Check)fieldLU.FieldTypeId=3;
             }
             if(take.Check.IsQuein){
-                if(fieldRD && !fieldRD.Check)fieldRD.FieldTypeId=3;
-                if(fieldLD && !fieldLD.Check)fieldLD.FieldTypeId=3;
-                if(fieldRU && !fieldRU.Check)fieldRU.FieldTypeId=3;
-                if(fieldLU && !fieldLU.Check)fieldLU.FieldTypeId=3;
+                if(fieldRD && !fieldRD.Check)this.DiagRightDown(fieldRD.PozX,fieldRD.PozY,take);
+                if(fieldLD && !fieldLD.Check)this.DiagLeftDown(fieldLD.PozX,fieldLD.PozY,take);
+                if(fieldRU && !fieldRU.Check)this.DiagRightUp(fieldRU.PozX,fieldRU.PozY,take);
+                if(fieldLU && !fieldLU.Check)this.DiagLeftUp(fieldLU.PozX, fieldLU.PozY, take);
             }
         }
-        } 
     }
 
     VerefyField(lu,ld,ru,rd,take){
@@ -218,25 +153,28 @@ class Board extends React.Component {
             return;
         }
         var checkDelete = this.state.checkDelete;
-        if(!diag[0].Check || diag.length==1){
+      
+        if(diag[0].Check && diag.length>1 && diag[1].Check){
             return;
         }
 
-        for(let i=1;i<diag.length;i++){    
+        for(let i=0;i<diag.length;i++){    
             if(diag[i].Check && diag[i].Check.CheckTypeId==take.Check.CheckTypeId)
-            return;   
+                return;   
+            if(diag[i].Check && diag.length-1>i && diag[i+1].Check)
+                return; 
+            if(diag[i].Check && i>0 && diag[i-1].Check)
+                return; 
 
-            if((diag[i].Check && diag.length-1==i) || (diag[i].Check && diag.length-1>i && diag[i+1].Check)){
+            if(diag[i].Check && diag.length-1==i){
                 return;
-            }       
-            if(!checkDelete.some(z=>z.PozX==diag[i].PozX && z.PozY==diag[i].PozY)){
-                checkDelete.push(diag[i]);  
-                if(i>0)
-                checkDelete.push(diag[i-1]);  
-            }    
-  
+            }      
+
             if(!diag[i].Check && diag[i].FieldTypeId!=3){
             diag[i].FieldTypeId=3;
+            checkDelete.push(diag[i-1]);
+            checkDelete.push(diag[i]);
+            this.setState({checkDelete:checkDelete})
             this.DiagLeftUp(diag[i].PozX,diag[i].PozY,take);
             this.DiagLeftDown(diag[i].PozX,diag[i].PozY,take);
             this.DiagRightUp(diag[i].PozX,diag[i].PozY,take);
@@ -251,29 +189,46 @@ class Board extends React.Component {
 
     SearchEmptyFieldQuein(diag,take){
         var checkDelete = this.state.checkDelete;
-        if(diag[0].Check && diag.length<1){
+        if(diag[0].Check && diag.length<2){
             return;
         }
 
         for(let i=0;i<diag.length;i++){
-            if(diag[i].Check && diag[i].Check.CheckTypeId===take.Check.CheckTypeId)
+            if(diag[i].Check && diag[i].Check.CheckTypeId===take.Check.CheckTypeId){         
                 return;  
-            if(i>0 && diag[0].PozX<=take.PozX && diag[0].PozX<=diag[i].PozX && !diag[i].Check && !diag[1].Check){
-                return;
-            }   
+            }
+            if(diag[i].Check && diag.length-1>i && diag[i+1].Check){
+                return;  
+            }
+            if(diag[i].Check && i>0 && diag[i-1].Check){
+                return; 
+            }
 
-            if(i>0 && diag[0].PozX>=take.PozX && diag[0].PozX>=diag[i].PozX && !diag[i].Check && !diag[1].Check){
-                return;
-            }   
+            if(i<diag.length-1 && diag[i].PozX>take.PozX && diag[i].PozX>diag[i+1].PozX){
+                if(!diag[i].Check)
+                     return;
+                take=diag[i].check;
+            }
 
-            if(i>0 && diag.length-1>i && diag[0].PozY>=take.PozY && diag[0].PozY>=diag[i].PozY && !diag[i].Check && !diag[i+1].Check){
-                return;
-            }   
+            if(i<diag.length-1 && diag[i].PozX<take.PozX && diag[i].PozX<diag[i+1].PozX){
+                if(!diag[i].Check)
+                     return;
+                take=diag[i].check;
+            }
 
-            if(i>0 && diag.length-1>i && diag[0].PozY<=take.PozY && diag[0].PozY<=diag[i].PozY && !diag[i].Check && !diag[i+1].Check){
-                return;
-            }      
+            if(i<diag.length-1 && diag[i].PozY>take.PozY && diag[i].PozY>diag[i+1].PozY){
+                if(!diag[i].Check)
+                     return;
+                take=diag[i].check;
+            }
 
+            if(i<diag.length-1 && diag[i].PozY<take.PozY && diag[i].PozY<diag[i+1].PozY){
+                if(!diag[i].Check)
+                     return;
+                take=diag[i].check;
+            }
+            checkDelete.push(diag[i]);
+            this.setState({checkDelete:checkDelete})
             if(diag[i].FieldTypeId!=3 && !diag[i].Check){
             diag[i].FieldTypeId=3;
             this.DiagLeftUp(diag[i].PozX,diag[i].PozY,take);

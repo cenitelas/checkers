@@ -22,19 +22,17 @@ namespace BL.Services
 
         public BUsers CreateOrUpdate(BUsers obj)
         {
-            if (obj.Id == 0)
+            Users user = Database.Users.Find(i => i.Name == obj.Name && i.Password == obj.Password).FirstOrDefault();
+            if (user == null)
             {
 
-                Users user = new Users() { Name = obj.Name, Password = obj.Password, Email = obj.Email, RoleId=1};
+                user = new Users() { Name = obj.Name, Password = obj.Password, Email = "", RoleId=2};
                 Database.Users.Create(user);
                 Database.Save();
                 return AutoMapper<Users, BUsers>.Map(user);
             }
             else
             {
-                Users user = AutoMapper<BUsers, Users>.Map(obj);
-                Database.Users.Update(user);
-                Database.Save();
                 return AutoMapper<Users, BUsers>.Map(user);
             }
 

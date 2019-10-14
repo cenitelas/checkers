@@ -17,31 +17,31 @@ namespace VL.Controllers
         {
             userService = serv;
         }
-        public IEnumerable<BUsers> Get()
+        public IEnumerable<BUsers> usersGet()
         {
             return userService.GetList();
         }
 
         // GET api/<controller>/5
-        public BUsers Get(int id)
+        public BUsers UserGet(int id)
         {
             return userService.Get(id);
         }
 
         // POST api/<controller>
-        public void Post(BUsers value)
+        public BUsers UserPost(BUsers value)
         {
-            userService.CreateOrUpdate(value);
+            return userService.CreateOrUpdate(value);
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, BUsers value)
+        public void UserPut(int id, BUsers value)
         {
             userService.CreateOrUpdate(value);
         }
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public void UserDelete(int id)
         {
             userService.Delete(id);
         }

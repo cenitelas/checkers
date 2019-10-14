@@ -21,7 +21,7 @@ namespace VL.Controllers
         }
 
         public IEnumerable<BGame> GetGames()
-        {
+        { 
             return gameService.GetList();
         }
 
