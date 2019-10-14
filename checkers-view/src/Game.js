@@ -7,7 +7,9 @@ class Game extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            game:{}
+            game:props.game,
+            players:props.players,
+            user:props.user
         }
     }
 

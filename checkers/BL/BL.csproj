@@ -69,6 +69,7 @@
     <Compile Include="Services\CheckService.cs" />
     <Compile Include="Services\FieldService.cs" />
     <Compile Include="Services\GameService.cs" />
+    <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Utils\AutoMapper.cs" />
   </ItemGroup>

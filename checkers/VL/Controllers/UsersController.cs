@@ -17,12 +17,12 @@ namespace VL.Controllers
         {
             userService = serv;
         }
-        public IEnumerable<BUsers> usersGet()
+        public IEnumerable<BUsers> UsersGet()
         {
             return userService.GetList();
         }
 
-        // GET api/<controller>/5
+        [HttpGet]
         public BUsers UserGet(int id)
         {
             return userService.Get(id);
