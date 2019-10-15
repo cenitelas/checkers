@@ -45,11 +45,10 @@ class GamesList extends React.Component {
     render() {
         var games = this.state.games;
         var users = this.state.users;
-        console.log(games);
         return (
           <div className="game-list">
               {games.map(i=>
-                users.find(z=>z.Id==i.HostId).Name
+               <div key={i.Id} className="line">{users.find(z=>z.Id==i.HostId).Name}</div>
               )}
           </div>
         )

@@ -1,0 +1,22 @@
+.game-list{
+    margin: 0 auto;
+    background-color: brown;
+    width: 50%;
+    height: 50%;
+    border-radius: 5px;
+}
+
+.game-list .line{
+    width: 100%;
+    border-radius: 5px;
+    color: white;
+}
+
+.game-list:nth-child(2n+1) .line{
+    background-color: rgba(245, 222, 179, 0.609);
+}
+
+.game-list .line:hover{
+background: rgba(255, 255, 255, 0.651);
+color:black;
+}

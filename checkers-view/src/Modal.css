@@ -1,0 +1,18 @@
+.modal {
+    position: fixed;
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 99;
+    background-color: rgba(0, 0, 0, 0.596);
+  }
+
+  .modal .modal-border{
+      width: 20%;
+      height: 50%;
+      background-color: white;
+      margin: 0 auto;
+  }
