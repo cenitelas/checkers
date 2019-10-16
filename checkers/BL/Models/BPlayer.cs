@@ -12,5 +12,7 @@ namespace BL.Models
         public int UserId { get; set; }
         public int CheckTypeId { get; set; }
         public int? GameId { get; set; }
+        public BGame Game { get; set; }
+
     }
 }

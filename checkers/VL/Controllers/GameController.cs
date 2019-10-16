@@ -31,6 +31,11 @@ namespace VL.Controllers
             return gameService.Get(id);
         }
 
+        public IEnumerable<BGame> GetGamesUser(int id = 0)
+        {
+            return gameService.GetList().Where(i => i.HostId == id);
+        }
+
         public BGame PostGame(BGame value)
         {
             return gameService.CreateOrUpdate(value);

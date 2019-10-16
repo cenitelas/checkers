@@ -26,6 +26,7 @@ class LoginForm extends React.Component {
         .then(request => request.json())
         .then(result => this.state.ChangeUser(result))
         .catch(function(res){ console.log(res) })
+
       }else{
           alert("Поля не могут быть пустыми!")
       }

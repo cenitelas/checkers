@@ -109,7 +109,7 @@ namespace BL.Services
 
         public IEnumerable<BGame> GetList()
         {
-            return AutoMapper<IEnumerable<Game>, List<BGame>>.Map(Database.Game.GetAll);
+            return AutoMapper<IEnumerable<Game>,List<BGame>>.Map(Database.Game.GetAll());
         }
     }
 }

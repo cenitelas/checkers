@@ -29,6 +29,15 @@ namespace VL.Controllers
             return playerService.Get(id);
         }
 
+        public BPlayer GetPlayerUser(int id)
+        {
+            return playerService.GetList().Where(i=>i.UserId==id).FirstOrDefault();
+        }
+
+        public IEnumerable<BPlayer> GetPlayersGame(int id)
+        {
+            return playerService.GetList().Where(i => i.GameId == id);
+        }
         // POST api/<controller>
         public BPlayer PostPlayer(BPlayer value)
         {
@@ -36,13 +45,13 @@ namespace VL.Controllers
         }
 
         // PUT api/<controller>/5
-        public BPlayer Put(int id, BPlayer value)
+        public BPlayer PutPlayer(int id, BPlayer value)
         {
             return playerService.CreateOrUpdate(value);
         }
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public void DeletePlayer(int id)
         {
             playerService.Delete(id);
         }

@@ -52,14 +52,23 @@ namespace BL.Services
         {
             if (id != 0)
             {
-                return AutoMapper<Player, BPlayer>.Map(Database.Player.Get, id);
+                var player =  AutoMapper<Player, BPlayer>.Map(Database.Player.Get, id);
+                if(player.GameId!=null)
+                player.Game = AutoMapper<Game, BGame>.Map(Database.Game.Get, (int)player.GameId);
+                return player;
             }
             return new BPlayer();
         }
 
         public IEnumerable<BPlayer> GetList()
         {
-            return AutoMapper<IEnumerable<Player>, List<BPlayer>>.Map(Database.Player.GetAll);
+            List<BPlayer> players = new List<BPlayer>();
+
+            foreach(var item in AutoMapper<IEnumerable<Player>, List<BPlayer>>.Map(Database.Player.GetAll))
+            {
+                players.Add(Get(item.Id));
+            }
+            return players;
         }
     }
 }
