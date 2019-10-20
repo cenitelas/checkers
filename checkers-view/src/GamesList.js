@@ -6,10 +6,12 @@ class GamesList extends React.Component {
         super(props)
         this.state = {
             games:[],
-            users:[]
+            users:[],
+            joinGame:props.joinGame
         }
         this.UsersRefresh = this.UsersRefresh.bind(this);
         this.GameRefresh = this.GameRefresh.bind(this);
+        this.ViewHost = this.ViewHost.bind(this);
     }
     componentDidMount(){
     this.intervalU = setInterval(() =>{
@@ -26,7 +28,7 @@ class GamesList extends React.Component {
     }
 
     GameRefresh(games){
-        if(JSON.stringify(this.state.games) !== JSON.stringify(games)){
+        if(JSON.stringify(this.state.games) !== JSON.stringify(games)){           
             this.setState({games:games});
         }
     }
@@ -42,14 +44,19 @@ class GamesList extends React.Component {
         clearInterval(this.intervalU);
     }
 
+   async ViewHost(i){
+    const  result = await  fetch("/api/player/GetPlayerUser/"+i.HostId);
+    const  player = await result.json();
+
+    return player.CheckTypeId;
+   }
     render() {
         var games = this.state.games;
         var users = this.state.users;
-        console.log(games);
         return (
           <div className="game-list">
               {games.map(i=>
-               <div key={i.Id} className="line">{users.find(z=>z.Id==i.HostId).Name}</div>
+               <div key={i.Id} className="line" onDoubleClick={()=>this.state.joinGame(i,this.ViewHost(i))}>{users.find(z=>z.Id==i.HostId).Name+" | "+((i.GameTypeId==1)?"Русские шашки":"Поддавки")+" | "+((this.ViewHost(i)==1)?"Белые":"Черные")}</div>
               )}
           </div>
         )

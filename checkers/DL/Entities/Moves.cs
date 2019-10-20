@@ -11,10 +11,9 @@ namespace DL.Entities
         public int Id { get; set; }
         public int PlayerId { get; set; }
         public Player Player { get; set; }
-        public int MoveCheckId { get; set; }
-        public Check MoveCheck { get; set; }
-        public int? EnemyCheckId { get; set; }
-        public Check EnemyCheck { get; set; }
+        public DateTime MoveTime { get; set; }
+        public int GameId { get; set; }
+        public Game Game { get; set; }
         
     }
 }

@@ -12,9 +12,9 @@ class App extends React.Component {
         super(props)
         this.state = {
           user:{},
-          player:{CheckTypeId:0},
+          player:{CheckTypeId:1},
           modal:null,
-          game:{GameTypeId:0}
+          game:{GameTypeId:1}
 
       }
       this.ChangeUser = this.ChangeUser.bind(this);
@@ -22,13 +22,17 @@ class App extends React.Component {
       this.CloseModal = this.CloseModal.bind(this);
       this.CreateGame = this.CreateGame.bind(this);
       this.SendNewGame = this.SendNewGame.bind(this);
+      this.JoinGame = this.JoinGame.bind(this);
     }
 
-    ChangeUser(user){
-      fetch("/api/player/GetPlayerUser/"+user.Id)
-      .then(request => request.json())
-      .then(result => result!=null && this.setState({player:result}))
-      .catch(function(res){ console.log(res) });
+    async ChangeUser(user){
+      var  response =  await fetch("/api/player/GetPlayerUser/"+user.Id);
+      var  player =  await response.json();
+      if(player){
+          response =  await fetch("/api/player/getplayer/"+player.Id);
+          player =  await response.json();  
+      this.setState({player:player});
+      }
       this.setState({user:user});;
     }
 
@@ -61,15 +65,11 @@ class App extends React.Component {
     this.setState({modal:message});
     }
 
-    SendNewGame(){
+    async SendNewGame(){
         var game = this.state.game;
-        var player = this.state.player;
         this.setState({player:{UserId:this.state.user.Id}});
-      if(game.GameTypeId!=0)
-        game.GameTypeId=1;
-      if(player.CheckTypeId!=0)       
         game.CountPlayers=1;
-        game.HostId=player.UserId;
+        game.HostId=this.state.user.Id;
         game.isFinish=false;
         fetch("/api/game/postgame",
         {
@@ -81,30 +81,40 @@ class App extends React.Component {
             body: JSON.stringify(game)
         })
         .then(request => request.json())
-        .then(result => this.setState({game:result}))
+        .then(result => {
+          const  response =  fetch("/api/player/GetPlayerUser/"+this.state.user.Id);
+          const  player =  response.json();
+          this.setState({player:player});
+          this.setState({game:result})})
         .catch(function(res){ console.log(res) })
-        this.setState({player:{CheckTypeId:1}});
         this.setState({player:{GameId:game.Id}});
-        
-        fetch("/api/player/postplayer",
-        {
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            method: "POST",
-            body: JSON.stringify(player)
-        })
-        .then(request => request.json())
-        .then(result => this.setState({player:result}))
-        .catch(function(res){ console.log(res) })
+      this.setState({modal:null});
     }
 
+    JoinGame(i,z){
+      var player = {};
+      player.UserId = this.state.user.Id;
+      player.CheckTypeId = (z==1)?2:1;
+      player.GameId=i.Id;
+      player.Game = i;
+      if(i && z)
+      fetch("/api/player/postplayer",
+      {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify(player)
+      })
+      .then(request => request.json())
+      .then(result => this.setState({player:result}));
+    }
 
     render() {
       var player = this.state.player;
       if(player && player.Game)
-        return <Game game={player.Game}></Game>
+        return <Game key={player.GameId} game={player.Game} player={player}></Game>
       else
         return (
           <div className="app">
@@ -116,7 +126,7 @@ class App extends React.Component {
             }
             {this.state.user.Id &&
                 <content>
-                   <GamesList></GamesList>
+                   <GamesList joinGame={this.JoinGame}></GamesList>
                    <button onClick={this.CreateGame}>Create game</button>
                 </content>  
               }          

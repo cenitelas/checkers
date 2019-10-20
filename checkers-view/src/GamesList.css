@@ -19,4 +19,5 @@
 .game-list .line:hover{
 background: rgba(255, 255, 255, 0.651);
 color:black;
+cursor: pointer;
 }

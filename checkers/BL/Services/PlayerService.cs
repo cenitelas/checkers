@@ -22,15 +22,22 @@ namespace BL.Services
 
         public BPlayer CreateOrUpdate(BPlayer obj)
         {
-            Player player = AutoMapper<BPlayer, Player>.Map(obj);
+            Player player = new Player();
             if (obj.Id == 0)
             {
+                player = new Player() { CheckTypeId = obj.CheckTypeId, GameId = obj.GameId, UserId = obj.UserId };
+                Player enemy = Database.Player.Find(i => i.GameId == obj.GameId).FirstOrDefault();
                 Database.Player.Create(player);
+                Database.Save();
+                Database.Moves.Create(new Moves() { GameId = (int)obj.GameId, MoveTime = DateTime.Now.AddMinutes(1), PlayerId = (player.CheckTypeId == 1) ? player.Id : enemy.Id });
             }
             else
             {
+                player = Database.Player.Get(obj.Id);
                 Database.Player.Update(player);
             }
+            Database.Save();
+            Database.Game.Get((int)obj.GameId).CountPlayers = 2;
             Database.Save();
             return AutoMapper<Player, BPlayer>.Map(player);
         }
@@ -62,13 +69,7 @@ namespace BL.Services
 
         public IEnumerable<BPlayer> GetList()
         {
-            List<BPlayer> players = new List<BPlayer>();
-
-            foreach(var item in AutoMapper<IEnumerable<Player>, List<BPlayer>>.Map(Database.Player.GetAll))
-            {
-                players.Add(Get(item.Id));
-            }
-            return players;
+            return AutoMapper<IEnumerable<Player>, List<BPlayer>>.Map(Database.Player.GetAll);
         }
     }
 }

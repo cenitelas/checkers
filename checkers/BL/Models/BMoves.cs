@@ -10,7 +10,7 @@ namespace BL.Models
     {
         public int Id { get; set; }
         public int PlayerId { get; set; }
-        public int MoveCheckId { get; set; }
-        public int? EnemyCheckId { get; set; }
+        public DateTime MoveTime { get; set; }
+        public int GameId { get; set; }
     }
 }

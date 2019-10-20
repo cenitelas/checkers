@@ -72,7 +72,8 @@ namespace BL.Services
                 Game game = new Game() { BoardId = board.Id, CountPlayers = 1, GameTypeId = obj.GameTypeId, HostId = obj.HostId, isFinish = false };
                 Database.Game.Create(game);
                 Database.Save();
-                Database.Player.Create(new Player() { CheckTypeId=1, GameId=game.Id, UserId = game.HostId});
+                Player player = new Player() { CheckTypeId = 1, GameId = game.Id, UserId = game.HostId };
+                Database.Player.Create(player);
                 Database.Save();
                 BGame bGame = AutoMapper<Game, BGame>.Map(game);
                 bGame.Board = AutoMapper<Board, BBoard>.Map(board);
@@ -100,16 +101,19 @@ namespace BL.Services
         public BGame Get(int id)
         {
             BGame game = AutoMapper<Game, BGame>.Map(Database.Game.Get, id);
-            if(game.BoardId!=null)
-            game.Board = AutoMapper<Board, BBoard>.Map(Database.Board.Get((int)game.BoardId));
-            game.Board.Fields = AutoMapper<IEnumerable<Field>, List<BField>>.Map(Database.Field.Find(i => i.BoardId == game.Board.Id));
-            game.Board.Fields.Where(z => z.CheckId != null).ToList().ForEach(i => i.Check = AutoMapper<Check, BCheck>.Map(Database.Check.Get((int)i.CheckId)));
+            if (game.BoardId != null)
+            {
+                game.Board = AutoMapper<Board, BBoard>.Map(Database.Board.Get((int)game.BoardId));
+                game.Board.Fields = AutoMapper<IEnumerable<Field>, List<BField>>.Map(Database.Field.Find(i => i.BoardId == game.Board.Id));
+                game.Board.Fields.Where(z => z.CheckId != null).ToList().ForEach(i => i.Check = AutoMapper<Check, BCheck>.Map(Database.Check.Get((int)i.CheckId)));
+            }
             return game;
         }
 
         public IEnumerable<BGame> GetList()
         {
-            return AutoMapper<IEnumerable<Game>,List<BGame>>.Map(Database.Game.GetAll());
+            List<BGame> games =  AutoMapper<IEnumerable<Game>,List<BGame>>.Map(Database.Game.GetAll());
+            return games;
         }
     }
 }

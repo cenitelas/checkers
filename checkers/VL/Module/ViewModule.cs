@@ -21,6 +21,7 @@ namespace VL.Modules
             Bind<IService<BBoard>>().To<BoardService>();
             Bind<IService<BField>>().To<FieldService>();
             Bind<IService<BPlayer>>().To<PlayerService>();
+            Bind<IService<BMoves>>().To<MoveService>();
             Bind<DefaultFilterProviders>().ToSelf().WithConstructorArgument(GlobalConfiguration.Configuration.Services.GetFilterProviders());
             Bind<DefaultModelValidatorProviders>().ToSelf().WithConstructorArgument(GlobalConfiguration.Configuration.Services.GetModelValidatorProviders());
         }

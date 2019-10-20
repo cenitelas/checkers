@@ -9,13 +9,20 @@ class Board extends React.Component {
             board:props.board,
             fieldTake:null,
             checkDelete:[],
-            isEnemy:false
+            isEnemy:false,
+            move:props.move,
+            player:props.player
         }
       this.FiledClick = this.FiledClick.bind(this);
       this.FiledLook = this.FiledLook.bind(this);
     }
     
     FiledClick(e,item){
+        var move = this.state.move;
+        var player = this.state.player;
+        console.log(move);
+        console.log(player);
+        if(move){
         this.setState({isEnemy:false});
         var field = e.props.field;    
         var fields = this.state.board.Fields;
@@ -26,7 +33,7 @@ class Board extends React.Component {
          }
 
 
-        if(field.Check){
+        if(field.Check && player.CheckTypeId==field.Check.CheckTypeId){
             this.setState({fieldTake:field});
             this.setState({checkDelete:[]});
             this.FiledLook(field,field);
@@ -40,6 +47,7 @@ class Board extends React.Component {
                 element.FieldTypeId=2;
             });         
         }
+    }
     }
 
     ClearFields(field,take){
