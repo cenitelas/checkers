@@ -14,5 +14,6 @@ using System.Web;
         public int RoleId { get; set; }
         public Roles Role { get; set; }
         public string Email { get; set; }
+        public int Victory { get; set; }
     }
 }

@@ -2,6 +2,8 @@ import React from 'react';
 import logo from './logo.svg';
 import './Board.css';
 import Field from './Field';
+import WaitBlock from './WaitBlock';
+
 class Board extends React.Component {
     constructor(props) {
         super(props)
@@ -11,6 +13,7 @@ class Board extends React.Component {
             checkDelete:[],
             isEnemy:false,
             move:props.move,
+            isMove:props.isMove,
             player:props.player
         }
       this.FiledClick = this.FiledClick.bind(this);
@@ -18,11 +21,9 @@ class Board extends React.Component {
     }
     
     FiledClick(e,item){
-        var move = this.state.move;
+        var isMove = this.state.isMove;
         var player = this.state.player;
-        console.log(move);
-        console.log(player);
-        if(move){
+        if(isMove){
         this.setState({isEnemy:false});
         var field = e.props.field;    
         var fields = this.state.board.Fields;
@@ -31,8 +32,6 @@ class Board extends React.Component {
             element.FieldTypeId=2;
         });         
          }
-
-
         if(field.Check && player.CheckTypeId==field.Check.CheckTypeId){
             this.setState({fieldTake:field});
             this.setState({checkDelete:[]});
@@ -54,12 +53,12 @@ class Board extends React.Component {
         var checkDelete = this.state.checkDelete;
         checkDelete = checkDelete.slice(0, checkDelete.indexOf(field));
         field.Check=take.Check;
+        field.CheckId=take.CheckId;
         take.Check=null;
         checkDelete.forEach(element => {     
             if(element.Check)
             element.Check=null;
         });
-
         if(field.Check.CheckTypeId==1 && field.PozY==7 ){
             field.Check.IsQuein = true;
         }
@@ -67,6 +66,26 @@ class Board extends React.Component {
         if(field.Check.CheckTypeId==2 && field.PozY==0 ){
             field.Check.IsQuein = true;
         }
+
+        fetch("/api/board/postboard",
+        {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify(this.state.board)
+        });
+
+        fetch("/api/move/PostMove",
+        {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify(this.state.move)
+        });
     }
 
     FiledLook(field,take){

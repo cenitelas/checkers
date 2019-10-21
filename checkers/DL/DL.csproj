@@ -88,6 +88,10 @@
     <Compile Include="Migrations\201910201558088_ChengeMove.Designer.cs">
       <DependentUpon>201910201558088_ChengeMove.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910211419312_AddUserVictory.cs" />
+    <Compile Include="Migrations\201910211419312_AddUserVictory.Designer.cs">
+      <DependentUpon>201910211419312_AddUserVictory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\UnitOfWork.cs" />
@@ -112,6 +116,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910201558088_ChengeMove.resx">
       <DependentUpon>201910201558088_ChengeMove.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910211419312_AddUserVictory.resx">
+      <DependentUpon>201910211419312_AddUserVictory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

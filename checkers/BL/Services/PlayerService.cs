@@ -62,14 +62,24 @@ namespace BL.Services
                 var player =  AutoMapper<Player, BPlayer>.Map(Database.Player.Get, id);
                 if(player.GameId!=null)
                 player.Game = AutoMapper<Game, BGame>.Map(Database.Game.Get, (int)player.GameId);
+                if(!player.Game.isFinish)
                 return player;
             }
-            return new BPlayer();
+            return null;
         }
 
         public IEnumerable<BPlayer> GetList()
         {
-            return AutoMapper<IEnumerable<Player>, List<BPlayer>>.Map(Database.Player.GetAll);
+            IEnumerable<Player> players = Database.Player.GetAll();
+            List<BPlayer> bPlayers = new List<BPlayer>();
+            foreach(var item in players)
+            {
+                if (Database.Game.Get((int)item.GameId).isFinish == false)
+                {
+                    bPlayers.Add(new BPlayer() { CheckTypeId=item.CheckTypeId, GameId=item.GameId, Id=item.Id, UserId=item.UserId});
+                }
+            }
+            return bPlayers;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace DL.Migrations
             if (!context.Roles.Any(i => i.Name == "Admin"))
             {
                 context.Roles.Add(role);
+                context.Roles.Add(new Roles() { Name = "User" });
                 context.SaveChanges();
 
 

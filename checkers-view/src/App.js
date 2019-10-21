@@ -29,9 +29,10 @@ class App extends React.Component {
       var  response =  await fetch("/api/player/GetPlayerUser/"+user.Id);
       var  player =  await response.json();
       if(player){
-          response =  await fetch("/api/player/getplayer/"+player.Id);
-          player =  await response.json();  
-      this.setState({player:player});
+      var response2 =  await fetch("/api/player/getplayer/"+player.Id);
+      var player2 =  await response2.json();  
+      console.log(player2);
+      this.setState({player:player2});
       }
       this.setState({user:user});;
     }
@@ -56,9 +57,9 @@ class App extends React.Component {
      var message = (
         <div className="create-game">
           <label>Тип игры</label>
-          <Select defaultValue={optionsGameType[0]} value={optionsGameType[this.state.game.GameTypeId-1]} options={optionsGameType} onChange={(e)=>{this.setState({game:{GameTypeId:e.value}});}}/>
+          <Select defaultValue={optionsGameType[0]} value={optionsGameType.find(i=>i.value==this.state.game.GameTypeId)} options={optionsGameType} onChange={(e)=>{this.setState({game:{GameTypeId:e.value}});}}/>
           <label>Цвет шашек</label>
-          <Select defaultValue={optionsCheckType[0]} value={optionsCheckType[this.state.game.GameTypeId-1]} options={optionsCheckType} onChange={(e)=>{this.setState({player:{CheckTypeId:e.value}});}}/>
+          <Select defaultValue={optionsCheckType[0]} value={optionsCheckType.find(i=>i.value==this.state.game.GameTypeId)} options={optionsCheckType} onChange={(e)=>{this.setState({player:{CheckTypeId:e.value}});}}/>
           <button onClick={this.SendNewGame}>Create</button>
         </div>
       )
@@ -91,13 +92,13 @@ class App extends React.Component {
       this.setState({modal:null});
     }
 
-    JoinGame(i,z){
+    JoinGame(i){
       var player = {};
       player.UserId = this.state.user.Id;
-      player.CheckTypeId = (z==1)?2:1;
+      player.CheckTypeId = (i.CheckTypeId==1)?2:1;
       player.GameId=i.Id;
       player.Game = i;
-      if(i && z)
+      if(i){
       fetch("/api/player/postplayer",
       {
           headers: {
@@ -109,6 +110,7 @@ class App extends React.Component {
       })
       .then(request => request.json())
       .then(result => this.setState({player:result}));
+    }
     }
 
     render() {

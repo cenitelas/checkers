@@ -30,19 +30,19 @@ namespace VL.Controllers
         }
 
         // POST api/<controller>
-        public BMoves Post(BMoves value)
+        public BMoves PostMove(BMoves value)
         {
             return moveService.CreateOrUpdate(value);
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, BMoves value)
+        public void PutMove(int id, BMoves value)
         {
             moveService.CreateOrUpdate(value);
         }
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public void DeleteMove(int id)
         {
             moveService.Delete(id);
         }

@@ -1,5 +1,6 @@
 import React from 'react';
 import './GamesList.css';
+import { async } from 'q';
 
 class GamesList extends React.Component {
     constructor(props) {
@@ -14,17 +15,17 @@ class GamesList extends React.Component {
         this.ViewHost = this.ViewHost.bind(this);
     }
     componentDidMount(){
-    this.intervalU = setInterval(() =>{
-        fetch('/api/users/getusers')
-        .then(request => request.json())
-        .then(result=>this.UsersRefresh(result));   
-      }, 1000);
+    this.intervalU = setInterval(async () =>{
+       var res = await fetch('/api/users/getusers');
+       var rej = await res.json();
+       this.UsersRefresh(rej);   
+      }, 100);
     
-    this.intervalG = setInterval(() =>{
-        fetch('/api/game/getgames')
-        .then(request => request.json())
-        .then(result=>this.GameRefresh(result)); 
-      }, 1000);
+    this.intervalG = setInterval(async () =>{
+        var res = await fetch('/api/game/getgames');
+        var rej = await res.json();
+        this.GameRefresh(rej); 
+      }, 100);
     }
 
     GameRefresh(games){
@@ -56,7 +57,7 @@ class GamesList extends React.Component {
         return (
           <div className="game-list">
               {games.map(i=>
-               <div key={i.Id} className="line" onDoubleClick={()=>this.state.joinGame(i,this.ViewHost(i))}>{users.find(z=>z.Id==i.HostId).Name+" | "+((i.GameTypeId==1)?"Русские шашки":"Поддавки")+" | "+((this.ViewHost(i)==1)?"Белые":"Черные")}</div>
+               <div key={i.Id} className="line" onDoubleClick={()=>this.state.joinGame(i)}>{users.find(z=>z.Id==i.HostId).Name+" | "+((i.GameTypeId==1)?"Русские шашки":"Поддавки")+" | "+((this.ViewHost(i)==1)?"Белые":"Черные")}</div>
               )}
           </div>
         )

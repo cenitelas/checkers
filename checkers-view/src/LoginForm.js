@@ -24,7 +24,7 @@ class LoginForm extends React.Component {
             body: JSON.stringify({Name: this.state.login, Password:this.state.password})
         })
         .then(request => request.json())
-        .then(result => {this.state.ChangeUser(result);  console.log(result)})
+        .then(result => {this.state.ChangeUser(result);})
         .catch(function(res){ console.log(res) })
        
       }else{

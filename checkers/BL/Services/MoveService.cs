@@ -22,17 +22,22 @@ namespace BL.Services
 
         public BMoves CreateOrUpdate(BMoves obj)
         {
-            Moves moves = AutoMapper<BMoves, Moves>.Map(obj);
+            Moves move = new Moves();
             if (obj.Id == 0)
             {
-                Database.Moves.Create(moves);
+                move = new Moves() { GameId=obj.GameId, PlayerId=obj.PlayerId, MoveTime=DateTime.Now.AddMinutes(1)};
+                Database.Moves.Create(move);
             }
             else
             {
-                Database.Moves.Update(moves);
+                Player pl = Database.Player.Find(i => i.GameId == obj.GameId && i.Id != obj.PlayerId).FirstOrDefault();
+                move = Database.Moves.Get(obj.Id);
+                move.MoveTime = DateTime.Now.AddMinutes(1);
+                move.PlayerId = pl.Id;
+                Database.Moves.Update(move);
             }
             Database.Save();
-            return AutoMapper<Moves, BMoves>.Map(moves);
+            return AutoMapper<Moves, BMoves>.Map(move);
         }
 
         public void Delete(int id)

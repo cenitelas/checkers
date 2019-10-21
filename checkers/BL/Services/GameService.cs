@@ -75,8 +75,8 @@ namespace BL.Services
                 Player player = new Player() { CheckTypeId = 1, GameId = game.Id, UserId = game.HostId };
                 Database.Player.Create(player);
                 Database.Save();
-                BGame bGame = AutoMapper<Game, BGame>.Map(game);
-                bGame.Board = AutoMapper<Board, BBoard>.Map(board);
+                BGame bGame = new BGame() { BoardId = game.BoardId, Id = game.Id, CountPlayers = game.CountPlayers, isFinish = game.isFinish, HostId = game.HostId, GameTypeId = game.GameTypeId };
+                bGame.Board = new BBoard() { BoardTypeId = board.BoardTypeId, Id = board.Id };
                 return bGame;
             }
             else
@@ -112,7 +112,7 @@ namespace BL.Services
 
         public IEnumerable<BGame> GetList()
         {
-            List<BGame> games =  AutoMapper<IEnumerable<Game>,List<BGame>>.Map(Database.Game.GetAll());
+            List<BGame> games =  AutoMapper<IEnumerable<Game>,List<BGame>>.Map(Database.Game.GetAll().Where(i=>i.CountPlayers==1));
             return games;
         }
     }
