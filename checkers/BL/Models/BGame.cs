@@ -15,6 +15,8 @@ namespace BL.Models
         public int HostId { get; set; }
         public int GameTypeId { get; set; }
         public bool isFinish { get; set; }
+
+        public int CheckTypeId { get; set; }
         public BBoard Board { get; set; }
     }
 }

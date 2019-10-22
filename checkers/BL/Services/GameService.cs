@@ -72,7 +72,7 @@ namespace BL.Services
                 Game game = new Game() { BoardId = board.Id, CountPlayers = 1, GameTypeId = obj.GameTypeId, HostId = obj.HostId, isFinish = false };
                 Database.Game.Create(game);
                 Database.Save();
-                Player player = new Player() { CheckTypeId = 1, GameId = game.Id, UserId = game.HostId };
+                Player player = new Player() { CheckTypeId = obj.CheckTypeId, GameId = game.Id, UserId = game.HostId };
                 Database.Player.Create(player);
                 Database.Save();
                 BGame bGame = new BGame() { BoardId = game.BoardId, Id = game.Id, CountPlayers = game.CountPlayers, isFinish = game.isFinish, HostId = game.HostId, GameTypeId = game.GameTypeId };
@@ -106,13 +106,18 @@ namespace BL.Services
                 game.Board = AutoMapper<Board, BBoard>.Map(Database.Board.Get((int)game.BoardId));
                 game.Board.Fields = AutoMapper<IEnumerable<Field>, List<BField>>.Map(Database.Field.Find(i => i.BoardId == game.Board.Id));
                 game.Board.Fields.Where(z => z.CheckId != null).ToList().ForEach(i => i.Check = AutoMapper<Check, BCheck>.Map(Database.Check.Get((int)i.CheckId)));
+                game.CheckTypeId = Database.Player.Find(i => i.UserId == game.HostId).FirstOrDefault().CheckTypeId;
             }
             return game;
         }
 
         public IEnumerable<BGame> GetList()
         {
-            List<BGame> games =  AutoMapper<IEnumerable<Game>,List<BGame>>.Map(Database.Game.GetAll().Where(i=>i.CountPlayers==1));
+            List<BGame> games =  AutoMapper<IEnumerable<Game>,List<BGame>>.Map(Database.Game.GetAll().Where(i=>i.CountPlayers==1 && i.isFinish==false));
+            foreach(var item in games)
+            {
+                games[games.IndexOf(item)].CheckTypeId = Database.Player.Find(i => i.UserId == item.HostId).FirstOrDefault().CheckTypeId;
+            }
             return games;
         }
     }

@@ -5,7 +5,8 @@ import LoginForm from './LoginForm';
 import Game from './Game';
 import GamesList from './GamesList';
 import Modal from './Modal';
-import Select from 'react-select'
+import Select from 'react-select';
+import './Modal.css';
 
 class App extends React.Component {
     constructor(props) {
@@ -14,12 +15,12 @@ class App extends React.Component {
           user:{},
           player:{CheckTypeId:1},
           modal:null,
-          game:{GameTypeId:1}
-
+          game:{GameTypeId:1, CheckTypeId:1},
+          isCreateGame:false
       }
       this.ChangeUser = this.ChangeUser.bind(this);
-      this.ShowModal = this.ShowModal.bind(this);
-      this.CloseModal = this.CloseModal.bind(this);
+      this.ShowCreateGame = this.ShowCreateGame.bind(this);
+      this.CloseCreateGame = this.CloseCreateGame.bind(this);
       this.CreateGame = this.CreateGame.bind(this);
       this.SendNewGame = this.SendNewGame.bind(this);
       this.JoinGame = this.JoinGame.bind(this);
@@ -31,18 +32,17 @@ class App extends React.Component {
       if(player){
       var response2 =  await fetch("/api/player/getplayer/"+player.Id);
       var player2 =  await response2.json();  
-      console.log(player2);
       this.setState({player:player2});
       }
       this.setState({user:user});;
     }
 
-    ShowModal(message){
-      this.setState({modal:message});
+    ShowCreateGame(){
+      this.setState({isCreateGame:true});
     }
 
-    CloseModal(){
-      this.setState({modal:null});
+    CloseCreateGame(){
+      this.setState({isCreateGame:false});
     }
 
     CreateGame(){
@@ -54,25 +54,25 @@ class App extends React.Component {
       { value: 1, label: 'Белые' },
       { value: 2, label: 'Черные' }
     ]
-     var message = (
+    var game = this.state.game;
+    return(
         <div className="create-game">
           <label>Тип игры</label>
-          <Select defaultValue={optionsGameType[0]} value={optionsGameType.find(i=>i.value==this.state.game.GameTypeId)} options={optionsGameType} onChange={(e)=>{this.setState({game:{GameTypeId:e.value}});}}/>
+          <Select defaultValue={optionsGameType.find(i=>i.value==game.GameTypeId)} value={optionsGameType.find(i=>i.value==game.GameTypeId)} options={optionsGameType} onChange={(e)=>{game.GameTypeId=e.value; this.setState({game:game})}}/>
           <label>Цвет шашек</label>
-          <Select defaultValue={optionsCheckType[0]} value={optionsCheckType.find(i=>i.value==this.state.game.GameTypeId)} options={optionsCheckType} onChange={(e)=>{this.setState({player:{CheckTypeId:e.value}});}}/>
+          <Select defaultValue={optionsCheckType.find(i=>i.value==game.CheckTypeId)} value={optionsCheckType.find(i=>i.value==game.CheckTypeId)} options={optionsCheckType} onChange={(e)=>{game.CheckTypeId=e.value; this.setState({game:game})}}/>
           <button onClick={this.SendNewGame}>Create</button>
         </div>
-      )
-    this.setState({modal:message});
+    )
     }
 
     async SendNewGame(){
         var game = this.state.game;
-        this.setState({player:{UserId:this.state.user.Id}});
+        var player = this.state.player;
         game.CountPlayers=1;
         game.HostId=this.state.user.Id;
         game.isFinish=false;
-        fetch("/api/game/postgame",
+        var gameRes = await fetch("/api/game/postgame",
         {
             headers: {
               'Accept': 'application/json',
@@ -80,26 +80,24 @@ class App extends React.Component {
             },
             method: "POST",
             body: JSON.stringify(game)
-        })
-        .then(request => request.json())
-        .then(result => {
-          const  response =  fetch("/api/player/GetPlayerUser/"+this.state.user.Id);
-          const  player =  response.json();
-          this.setState({player:player});
-          this.setState({game:result})})
-        .catch(function(res){ console.log(res) })
-        this.setState({player:{GameId:game.Id}});
-      this.setState({modal:null});
+        });
+        game = await gameRes.json();
+        const  response = await fetch("/api/player/GetPlayerUser/"+this.state.user.Id);
+        player = await response.json();
+        player.GameId=game.Id;
+        player.Game=game;
+        this.setState({player:player});
+        this.setState({game:game});
+      this.setState({isCreateGame:false});
     }
 
-    JoinGame(i){
+    async JoinGame(i){
       var player = {};
       player.UserId = this.state.user.Id;
-      player.CheckTypeId = (i.CheckTypeId==1)?2:1;
       player.GameId=i.Id;
       player.Game = i;
       if(i){
-      fetch("/api/player/postplayer",
+      var res = await fetch("/api/player/postplayer",
       {
           headers: {
             'Accept': 'application/json',
@@ -107,9 +105,11 @@ class App extends React.Component {
           },
           method: "POST",
           body: JSON.stringify(player)
-      })
-      .then(request => request.json())
-      .then(result => this.setState({player:result}));
+      });
+      var newPlayer = await res.json();
+      player.CheckTypeId = newPlayer.CheckTypeId;
+      player.Id=newPlayer.Id;
+      this.setState({player:player});
     }
     }
 
@@ -120,8 +120,12 @@ class App extends React.Component {
       else
         return (
           <div className="app">
-            {this.state.modal && 
-               <Modal key="1" message={this.state.modal}></Modal>
+            {this.state.isCreateGame && 
+              <div className="modal">
+              <div className="modal-border">
+                  {this.CreateGame()}
+              </div>
+          </div>
             }
             {!this.state.user.Id &&
               <LoginForm ChangeUser={this.ChangeUser}></LoginForm>
@@ -129,7 +133,7 @@ class App extends React.Component {
             {this.state.user.Id &&
                 <content>
                    <GamesList joinGame={this.JoinGame}></GamesList>
-                   <button onClick={this.CreateGame}>Create game</button>
+                   <button onClick={this.ShowCreateGame}>Create game</button>
                 </content>  
               }          
           </div>

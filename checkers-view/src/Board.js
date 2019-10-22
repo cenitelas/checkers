@@ -14,7 +14,8 @@ class Board extends React.Component {
             isEnemy:false,
             move:props.move,
             isMove:props.isMove,
-            player:props.player
+            player:props.player,
+            setIsMove:props.setIsMove
         }
       this.FiledClick = this.FiledClick.bind(this);
       this.FiledLook = this.FiledLook.bind(this);
@@ -86,6 +87,7 @@ class Board extends React.Component {
             method: "POST",
             body: JSON.stringify(this.state.move)
         });
+        this.state.setIsMove(false);
     }
 
     FiledLook(field,take){

@@ -3,7 +3,6 @@ import logo from './logo.svg';
 import './Game.css';
 import Board from './Board';
 import WaitBlock from './WaitBlock';
-import { async } from 'q';
 
 class Game extends React.Component {
     constructor(props) {
@@ -16,42 +15,45 @@ class Game extends React.Component {
             isMove:false
         }
         this.MoveRefresh = this.MoveRefresh.bind(this);
+        this.SetIsMove = this.SetIsMove.bind(this);
     }
 
     componentDidMount(){
         var game = this.state.game;
-
-        fetch("/api/player/GetPlayersGame/"+game.Id)
+        var player = this.state.player;
+        fetch("/api/player/GetPlayersGame/"+player.GameId)
         .then(request => request.json())
         .then(result => this.setState({players:result}))
         .catch(function(res){ console.log(res) });
 
-        fetch("/api/board/getboard/"+game.BoardId)
+        fetch("/api/board/getboard/"+player.Game.BoardId)
         .then(request => request.json())
         .then(result => {game.Board=result; this.setState({game:game})})
         .catch(function(res){ console.log(res) });
         
         this.intervalP = setInterval(async () =>{
-            var res = await fetch('/api/move/getmove/'+game.Id);
+            if(game.CountPlayers===2){
+            var res = await fetch('/api/move/getmove/'+player.GameId);
             var rej = await res.json()
             this.MoveRefresh(rej); 
+            }
         }, 100);
 
         this.intervalG = setInterval(async () =>{
-            var res = await fetch('/api/game/getgame/'+game.Id);
+            var res = await fetch('/api/game/getgame/'+player.GameId);
             var rej = await res.json()
             this.GameRefresh(rej); 
         }, 100);
     }
 
-    MoveRefresh(result){
+    async MoveRefresh(result){
         var move = this.state.move;
         var game = this.state.game;
-    if(JSON.stringify(move)!=JSON.stringify(result)){
+    if(JSON.stringify(move)!=JSON.stringify(result) ){
     this.setState({move:result});
-     fetch('/api/board/getboard/'+game.BoardId)
-    .then(request => request.json())
-    .then(result2=>{game.Board=result2; this.setState({game:game})}); 
+     var res = await fetch('/api/board/getboard/'+game.BoardId);
+     var rej = await res.json();
+     this.BoardRefresh(rej);
      move = this.state.move;
     var player = this.state.player;
        if(player.Id==move.PlayerId)
@@ -59,6 +61,14 @@ class Game extends React.Component {
        else 
            this.setState({isMove:false});
     }
+    }
+
+    BoardRefresh(result){
+        var game = this.state.game;
+        if(JSON.stringify(game.Board)!=JSON.stringify(result)){
+            game.Board=result;
+            this.setState({game:game});
+        }
     }
 
     GameRefresh(result){
@@ -71,6 +81,10 @@ class Game extends React.Component {
     componentWillUnmount() {
         clearInterval(this.intervalP);
         clearInterval(this.intervalG);
+    }
+
+    SetIsMove(move){
+        this.setState({isMove:move});
     }
 
     render() {
@@ -89,7 +103,7 @@ class Game extends React.Component {
               }
               <div>{(player.CheckTypeId==1)?"Ваши белые":"Ваши черные"}</div>
               {this.state.game.Board && this.state.game.Board.Fields &&
-                 <Board key={Math.random()+0.01} board={this.state.game.Board} player={this.state.player} isMove={this.state.isMove} move={this.state.move}></Board>
+                 <Board key={Math.random()*0.001} board={this.state.game.Board} setIsMove={this.SetIsMove} player={this.state.player} isMove={this.state.isMove} move={this.state.move}></Board>
               }              
           </div>
         )

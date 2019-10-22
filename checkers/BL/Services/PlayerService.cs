@@ -25,8 +25,8 @@ namespace BL.Services
             Player player = new Player();
             if (obj.Id == 0)
             {
-                player = new Player() { CheckTypeId = obj.CheckTypeId, GameId = obj.GameId, UserId = obj.UserId };
                 Player enemy = Database.Player.Find(i => i.GameId == obj.GameId).FirstOrDefault();
+                player = new Player() { CheckTypeId = (enemy.CheckTypeId==1)?2:1, GameId = obj.GameId, UserId = obj.UserId };
                 Database.Player.Create(player);
                 Database.Save();
                 Database.Moves.Create(new Moves() { GameId = (int)obj.GameId, MoveTime = DateTime.Now.AddMinutes(1), PlayerId = (player.CheckTypeId == 1) ? player.Id : enemy.Id });
@@ -36,10 +36,10 @@ namespace BL.Services
                 player = Database.Player.Get(obj.Id);
                 Database.Player.Update(player);
             }
-            Database.Save();
             Database.Game.Get((int)obj.GameId).CountPlayers = 2;
             Database.Save();
-            return AutoMapper<Player, BPlayer>.Map(player);
+            BPlayer bplayer = new BPlayer() { CheckTypeId = player.CheckTypeId, GameId = player.GameId, UserId = player.UserId, Id = player.Id };
+            return bplayer;
         }
 
         public void Delete(int id)
