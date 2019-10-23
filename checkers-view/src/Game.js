@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './Game.css';
 import Board from './Board';
 import WaitBlock from './WaitBlock';
+import Time from './Time';
 
 class Game extends React.Component {
     constructor(props) {
@@ -21,6 +22,7 @@ class Game extends React.Component {
     componentDidMount(){
         var game = this.state.game;
         var player = this.state.player;
+
         fetch("/api/player/GetPlayersGame/"+player.GameId)
         .then(request => request.json())
         .then(result => this.setState({players:result}))
@@ -30,16 +32,13 @@ class Game extends React.Component {
         .then(request => request.json())
         .then(result => {game.Board=result; this.setState({game:game})})
         .catch(function(res){ console.log(res) });
-        
+
         this.intervalP = setInterval(async () =>{
             if(game.CountPlayers===2){
             var res = await fetch('/api/move/getmove/'+player.GameId);
             var rej = await res.json()
             this.MoveRefresh(rej); 
             }
-        }, 100);
-
-        this.intervalG = setInterval(async () =>{
             var res = await fetch('/api/game/getgame/'+player.GameId);
             var rej = await res.json()
             this.GameRefresh(rej); 
@@ -50,7 +49,7 @@ class Game extends React.Component {
         var move = this.state.move;
         var game = this.state.game;
     if(JSON.stringify(move)!=JSON.stringify(result) ){
-    this.setState({move:result});
+     this.setState({move:result});
      var res = await fetch('/api/board/getboard/'+game.BoardId);
      var rej = await res.json();
      this.BoardRefresh(rej);
@@ -80,7 +79,7 @@ class Game extends React.Component {
 
     componentWillUnmount() {
         clearInterval(this.intervalP);
-        clearInterval(this.intervalG);
+
     }
 
     SetIsMove(move){
@@ -90,13 +89,15 @@ class Game extends React.Component {
     render() {
         var players = this.state.players;
         var player = this.state.player;
+        var move = this.state.move;
         return (
           <div className="game">
+              <h1><Time key={move.MoveTime} time={move}></Time></h1>
               {this.state.game.CountPlayers!=2 &&
                  <WaitBlock key={player.Id} message={"Ожидание соперника"}></WaitBlock>            
               }
               {!this.state.isMove &&
-                 <WaitBlock key={player.Id} message={"Ожидание соперника"}></WaitBlock>            
+                 <WaitBlock key={move.MoveTime} message={<div><h5>Ожидание противника</h5><h1><Time time={move}></Time></h1></div>}></WaitBlock>            
               }
             {this.state.game.isFinish &&
                  <WaitBlock key={this.state.move.MoveTime} message={"Игра окончена!"}></WaitBlock>            

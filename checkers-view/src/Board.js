@@ -209,6 +209,7 @@ class Board extends React.Component {
             this.DiagRightUp(diag[i].PozX,diag[i].PozY,take);
             this.DiagRightDown(diag[i].PozX,diag[i].PozY,take);
             }
+            
             if(!diag[i].Check && diag.length-1>i && !diag[i+1].Check){
                 return;
             }   

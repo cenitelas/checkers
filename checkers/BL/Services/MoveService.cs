@@ -61,6 +61,7 @@ namespace BL.Services
                 Player pl = Database.Player.Find(i => i.GameId == move.GameId && i.Id != move.PlayerId).FirstOrDefault();
                 move.MoveTime = DateTime.Now.AddMinutes(1);
                 move.PlayerId = pl.Id;
+                Database.Moves.Update(move);
                 Database.Save();
             }
             return AutoMapper<Moves, BMoves>.Map(move);
