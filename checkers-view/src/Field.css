@@ -7,11 +7,11 @@
     flex-direction: column;
 }
 .field_black{
-    background-color: brown;
+    background-image: url(https://cpimg.tistatic.com/04098671/s/4/Ebony-Oak-plank.jpg);
 }
 
 .field_white{
-    background-color: white;
+    background-image: url(http://cgtexture.ir/images/products/thumb/108057sbbftb.jpg);
 }
 
 .field_light{

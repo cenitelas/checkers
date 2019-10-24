@@ -56,8 +56,17 @@ class GamesList extends React.Component {
         var users = this.state.users;
         return (
           <div className="game-list">
+              <div className="header-game-list">
+                  <span>Игрок</span>
+                  <span>Тип игры</span>
+                  <span>Цвет</span>
+              </div>
               {games.map(i=>
-               <div key={i.Id} className="line" onDoubleClick={()=>this.state.joinGame(i)}>{users.find(z=>z.Id==i.HostId).Name+" | "+((i.GameTypeId==1)?"Русские шашки":"Поддавки")+" | "+((this.ViewHost(i)==1)?"Белые":"Черные")}</div>
+               <div key={i.Id} className="line" onDoubleClick={()=>this.state.joinGame(i)}>
+               <span>{users.find(z=>z.Id==i.HostId).Name}</span>
+               <span>{(i.GameTypeId==1)?"Русские шашки":"Поддавки"}</span>
+               <span>{(this.ViewHost(i)==1)?"Белые":"Черные"}</span>
+               </div>
               )}
           </div>
         )

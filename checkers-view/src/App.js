@@ -7,6 +7,7 @@ import GamesList from './GamesList';
 import Modal from './Modal';
 import Select from 'react-select';
 import './Modal.css';
+import Chat from './Chat';
 
 class App extends React.Component {
     constructor(props) {
@@ -136,9 +137,10 @@ class App extends React.Component {
                   <div className="header">
                     <h2>Ваше имя: {user.Name}</h2>
                     <h2>Количество побед: {user.Victory}</h2>
+                    <h2 className="create-game" onClick={this.ShowCreateGame}>Создать игру</h2>
                   </div>
+                   <Chat key="1" id={0} user={this.state.user}></Chat>
                    <GamesList joinGame={this.JoinGame}></GamesList>
-                   <button onClick={this.ShowCreateGame}>Create game</button>
                 </content>  
               }          
           </div>

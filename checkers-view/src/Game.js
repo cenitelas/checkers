@@ -92,7 +92,7 @@ class Game extends React.Component {
         var move = this.state.move;
         return (
           <div className="game">
-              <h1><Time key={move.MoveTime} time={move}></Time></h1>
+              <span><Time key={move.MoveTime} time={move}></Time></span>
               {this.state.game.CountPlayers!=2 &&
                  <WaitBlock key={player.Id} message={"Ожидание соперника"}></WaitBlock>            
               }

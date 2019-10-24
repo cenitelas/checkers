@@ -1,23 +1,36 @@
 .game-list{
-    margin: 0 auto;
-    background-color: brown;
+    margin: 10% auto 0 auto;
+    background-image: url(https://i2.rozetka.ua/goods/8643798/61076727_images_8643798245.jpg);
     width: 50%;
     height: 50%;
     border-radius: 5px;
+    border: 2px solid black;
 }
 
 .game-list .line{
-    width: 100%;
+    display: flex;
+    justify-content: space-between;
     border-radius: 5px;
     color: white;
-}
-
-.game-list:nth-child(2n+1) .line{
-    background-color: rgba(245, 222, 179, 0.609);
+    border-bottom: 1px solid white;
+    background-color: rgba(128, 128, 128, 0.486);
 }
 
 .game-list .line:hover{
 background: rgba(255, 255, 255, 0.651);
 color:black;
 cursor: pointer;
+}
+
+.game-list .header-game-list{
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.507);
+    
+}
+
+.game-list .header-game-list span, .game-list .line span{
+padding: 0 10%;
+width: 30%;
 }

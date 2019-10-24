@@ -1,6 +1,6 @@
 .check{
     margin: 0 auto;
-    width: 84px;
+    width: 82px;
     height: 84px;
     border-radius: 50%;
 }
@@ -11,9 +11,14 @@
 }
 
 .check_black{
+    background-image: url(http://forum-psn.ru/uploads/monthly_09_2018/post-289-1536310601.png);
+    background-size: cover;
     background-color: black;
 }
 
 .check_white{
-    background-color: white;
+    background-image: url(https://yt3.ggpht.com/a/AGF-l7-lhAcO1brBZbmXIiD4kpc6drBwABWVYQ7eSw=s400-c-k-c0xffffffff-no-rj-mo);
+    background-size: cover;
+    background-color: burlywood;
+    background-position-x: center;
 }

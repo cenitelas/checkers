@@ -1,5 +1,5 @@
 .wait-block{
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 100%;
     display: flex;
@@ -14,6 +14,20 @@
     text-align: center;
     margin: 0 auto;
     color: black;
-    background-color: grey;
+    background-image: url(https://i2.rozetka.ua/goods/8643798/61076727_images_8643798245.jpg);
     border-radius: 5px;
+    border: 2px solid black;
+    color:  white;
+    text-shadow: 0px 0px 2px wheat;
+}
+
+.game{
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url(https://oboi.ws/filters/toaster_17_8440_oboi_derevjannyj_pol_1920x1080.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
 }

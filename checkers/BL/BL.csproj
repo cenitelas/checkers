@@ -53,6 +53,7 @@
     <Compile Include="Interfaces\IService.cs" />
     <Compile Include="Models\BBoard.cs" />
     <Compile Include="Models\BBoardType.cs" />
+    <Compile Include="Models\BChat.cs" />
     <Compile Include="Models\BCheck.cs" />
     <Compile Include="Models\BCheckType.cs" />
     <Compile Include="Models\BField.cs" />

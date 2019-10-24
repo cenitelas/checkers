@@ -50,7 +50,8 @@ class Board extends React.Component {
     }
     }
 
-    ClearFields(field,take){
+    async ClearFields(field,take){
+        this.state.setIsMove(false);
         var checkDelete = this.state.checkDelete;
         checkDelete = checkDelete.slice(0, checkDelete.indexOf(field));
         field.Check=take.Check;
@@ -68,7 +69,7 @@ class Board extends React.Component {
             field.Check.IsQuein = true;
         }
 
-        fetch("/api/board/postboard",
+        await fetch("/api/board/postboard",
         {
             headers: {
               'Accept': 'application/json',
@@ -78,7 +79,7 @@ class Board extends React.Component {
             body: JSON.stringify(this.state.board)
         });
 
-        fetch("/api/move/PostMove",
+        await fetch("/api/move/PostMove",
         {
             headers: {
               'Accept': 'application/json',
@@ -87,7 +88,7 @@ class Board extends React.Component {
             method: "POST",
             body: JSON.stringify(this.state.move)
         });
-        this.state.setIsMove(false);
+
     }
 
     FiledLook(field,take){
