@@ -115,6 +115,7 @@ class App extends React.Component {
 
     render() {
       var player = this.state.player;
+      var user = this.state.user;
       if(player && player.Game)
         return <Game key={player.GameId} game={player.Game} player={player}></Game>
       else
@@ -132,6 +133,10 @@ class App extends React.Component {
             }
             {this.state.user.Id &&
                 <content>
+                  <div className="header">
+                    <h2>Ваше имя: {user.Name}</h2>
+                    <h2>Количество побед: {user.Victory}</h2>
+                  </div>
                    <GamesList joinGame={this.JoinGame}></GamesList>
                    <button onClick={this.ShowCreateGame}>Create game</button>
                 </content>  
