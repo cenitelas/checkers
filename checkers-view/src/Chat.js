@@ -34,7 +34,7 @@ class Chat extends React.Component {
         var message = this.state.message;
         var user = this.state.user;
         if(message.length>0){
-        console.log(chat);
+            chat.Id=this.state.Id;
         if(!chat.Messages){
             chat.Messages=[];
         }
@@ -60,12 +60,14 @@ class Chat extends React.Component {
               <div className="messages">
               {chat && chat.Messages &&
                 chat.Messages.map((item)=>
-                    <p>{item}</p>
+                    <p key={Math.random()*0.001}>{item}</p>
                 )
               }
               </div>
+              <div className="message">
               <input value={this.state.message} onChange={(e)=>this.setState({message:e.target.value})}></input>
-              <button onClick={this.SendMessage}></button>
+              <button onClick={this.SendMessage}>Отправить</button>
+              </div>
           </div>
         )
     }

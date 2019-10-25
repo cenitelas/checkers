@@ -30,12 +30,12 @@ class App extends React.Component {
     async ChangeUser(user){
       var  response =  await fetch("/api/player/GetPlayerUser/"+user.Id);
       var  player =  await response.json();
+      this.setState({user:user});;
       if(player){
       var response2 =  await fetch("/api/player/getplayer/"+player.Id);
       var player2 =  await response2.json();  
       this.setState({player:player2});
       }
-      this.setState({user:user});;
     }
 
     ShowCreateGame(){
@@ -48,8 +48,7 @@ class App extends React.Component {
 
     CreateGame(){
      var optionsGameType = [
-      { value: 1, label: 'Русские шашки' },
-      { value: 2, label: 'Поддавки' }
+      { value: 1, label: 'Русские шашки' }
     ]
     var optionsCheckType = [
       { value: 1, label: 'Белые' },
@@ -118,7 +117,7 @@ class App extends React.Component {
       var player = this.state.player;
       var user = this.state.user;
       if(player && player.Game)
-        return <Game key={player.GameId} game={player.Game} player={player}></Game>
+        return <Game key={player.GameId} game={player.Game} player={player} user={user}></Game>
       else
         return (
           <div className="app">
@@ -140,7 +139,7 @@ class App extends React.Component {
                     <h2 className="create-game" onClick={this.ShowCreateGame}>Создать игру</h2>
                   </div>
                    <Chat key="1" id={0} user={this.state.user}></Chat>
-                   <GamesList joinGame={this.JoinGame}></GamesList>
+                   <GamesList key="2" joinGame={this.JoinGame}></GamesList>
                 </content>  
               }          
           </div>

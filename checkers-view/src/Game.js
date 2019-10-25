@@ -4,6 +4,7 @@ import './Game.css';
 import Board from './Board';
 import WaitBlock from './WaitBlock';
 import Time from './Time';
+import Chat from './Chat';
 
 class Game extends React.Component {
     constructor(props) {
@@ -13,6 +14,7 @@ class Game extends React.Component {
             game:props.game,
             players:[],
             move:{},
+            user:props.user,
             isMove:false
         }
         this.MoveRefresh = this.MoveRefresh.bind(this);
@@ -103,6 +105,7 @@ class Game extends React.Component {
                  <WaitBlock key={this.state.move.MoveTime} message={"Игра окончена!"}></WaitBlock>            
               }
               <div>{(player.CheckTypeId==1)?"Ваши белые":"Ваши черные"}</div>
+              <Chat key={player.GameId} id={player.GameId} user={this.state.user}></Chat>
               {this.state.game.Board && this.state.game.Board.Fields &&
                  <Board key={Math.random()*0.001} board={this.state.game.Board} setIsMove={this.SetIsMove} player={this.state.player} isMove={this.state.isMove} move={this.state.move}></Board>
               }              

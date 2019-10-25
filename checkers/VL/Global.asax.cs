@@ -20,6 +20,7 @@ namespace VL
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             NinjectModule Module = new ViewModule();
             NinjectModule serviceModule = new ServiceModule("checkers");

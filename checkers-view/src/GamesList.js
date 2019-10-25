@@ -19,9 +19,6 @@ class GamesList extends React.Component {
        var res = await fetch('/api/users/getusers');
        var rej = await res.json();
        this.UsersRefresh(rej);   
-      }, 100);
-    
-    this.intervalG = setInterval(async () =>{
         var res = await fetch('/api/game/getgames');
         var rej = await res.json();
         this.GameRefresh(rej); 
@@ -41,7 +38,6 @@ class GamesList extends React.Component {
     }
 
     componentWillUnmount() {
-        clearInterval(this.intervalG);
         clearInterval(this.intervalU);
     }
 

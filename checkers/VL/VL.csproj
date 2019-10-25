@@ -137,10 +137,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\GameController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MoveController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -153,7 +155,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
+    <Content Include="Views\favicon.ico" />
+    <Content Include="Views\index.html" />
+    <Content Include="Views\logo192.png" />
+    <Content Include="Views\logo512.png" />
+    <Content Include="Views\precache-manifest.ab660f8aa3a5c4ef96bbf8ce36fdbd95.js" />
+    <Content Include="Views\robots.txt" />
+    <Content Include="Views\service-worker.js" />
+    <Content Include="Views\static\css\main.6c568134.chunk.css" />
+    <Content Include="Views\static\js\2.0401b931.chunk.js" />
+    <Content Include="Views\static\js\main.6a8f3c66.chunk.js" />
+    <Content Include="Views\static\js\runtime-main.e32834af.js" />
+    <Content Include="Views\static\media\logo.25bf045c.svg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -170,7 +185,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\VL20191025081135 - Web Deploy.pubxml" />
+    <Content Include="Views\asset-manifest.json" />
+    <Content Include="Views\manifest.json" />
+    <Content Include="Views\static\css\main.6c568134.chunk.css.map" />
+    <Content Include="Views\static\js\2.0401b931.chunk.js.map" />
+    <Content Include="Views\static\js\main.6a8f3c66.chunk.js.map" />
+    <Content Include="Views\static\js\runtime-main.e32834af.js.map" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
